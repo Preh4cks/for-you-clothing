@@ -1,0 +1,151 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheets/index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Register</title>
+    <style>
+        * {
+            /* outline: 1px solid red; */
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 20px auto;
+            padding: 0px 20px;
+            display: flex; 
+            justify-content: space-between;
+        }
+            .container > .left {
+                width: 48%;
+            }
+                .container > .left > img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            .container > .right {
+                display: block;
+                width: 48%;
+                padding: 20px;
+                border: 1px solid black;
+                background-color: white;
+            }
+
+
+        #register_form > .inputs {
+            border: 1px solid black;
+            border-radius: 20px;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+            #register_form > .inputs > * {
+                width: 48%;
+                margin-bottom: 20px;
+            }
+            #register_form input[type=email], #register_form input[type=text], #register_form input[type=password], #register_form input[type=date] {
+                padding: 10px 20px;
+            }
+
+        #register_form > h1 {
+            margin-bottom: 20px;
+        }
+
+        #register_form > h6 {
+            margin-bottom: 10px;
+        }
+
+        .gender_input_container {
+            display: flex;
+            padding: 10px 20px;
+            justify-content: space-between;
+        }
+            .gender_input_container > input, .gender_input_container > label {
+                cursor: pointer;
+            }
+
+        #register_form > .black_button {
+            display: block;
+            min-width: 200px;
+            margin: 0 0 20px auto;
+        }
+        #register_form > .login {
+            display: block;
+            text-align: right;
+        }
+
+        .errors > p {
+            width: 100%;
+            padding: 10px 20px;
+            background-color: var(--color-yellow);
+            margin-bottom: 10px;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <img src="https://cdn.pixabay.com/photo/2017/04/07/16/47/interview-2211354_1280.jpg" alt="Clothes">
+        </div>
+        <div class="right">
+            <form action="/validate" method="post" id="register_form">
+                <% if(Object.keys(errors).length !== 0) { %>
+                    <div class="errors">
+
+                    <% for(const error in errors) { %>
+                        <p>*<%= errors[error] %></p>
+                        <% break %>
+                    <% } %>
+
+                    </div>
+                <% } %>
+                <h1>Register</h1>
+
+
+                <!-- Personal Details -->
+                <h6>Personal Details</h6>
+                <div class="inputs">
+                    <input type="hidden" name="action" value="register" />
+                    <input type="text" name="first_name" placeholder="First Name" />
+                    <input type="text" name="last_name" placeholder="Last Name" />
+                    <input type="text" name="email" placeholder="Email" />
+                    <input type="password" name="password" placeholder="Password" />
+                    <input type="password" name="confirm_password" placeholder="Confirm Password" />
+                    <input type="date" name="birthdate" placeholder="Birthdate" />
+                    <div class="gender_input_container">
+                        <input type="radio" name="gender" id="male" value="male" />
+                        <label for="male">Male</label> 
+                        <input type="radio" name="gender" id="female" value="female" />
+                        <label for="female">Female</label> 
+                        <input type="radio" name="gender" id="non-binary" value="non-binary" />
+                        <label for="non-binary">Non-binary</label> 
+                    </div>
+                </div>
+                
+                <!-- Shipping Details -->
+                <h6>Shipping Details</h6>
+                <div class="inputs">
+                    <input type="text" name="address" placeholder="Address" />
+                    <input type="text" name="contact" placeholder="Contact" />
+                    <input type="text" name="city" placeholder="City" />
+                    <input type="text" name="state" placeholder="State" />
+                    <input type="text" name="zip" placeholder="Zip Code" />
+                </div>
+
+
+                <input type="submit" value="Register" class="black_button"/>
+    
+                <a href="/login" class="login">I already have an account</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -10,7 +10,7 @@ const express = require("express");
  * to Router.
  */
 
-const welcomeRoutes = express.Router();
+const userRoutes = express.Router();
 
 /**
  * DOCU: Imports Controller Module
@@ -18,17 +18,22 @@ const welcomeRoutes = express.Router();
  * No need to create new object.
  */
 
-const welcomeController = require("../controllers/welcomeController");
+const userController = require("../controllers/userController");
 
 /**
  * DOCU: Using the Object from module controller
  * Routes the User from specific request.
  */
 
-welcomeRoutes.get("/", welcomeController.index);
+userRoutes.get("/", userController.index);
+userRoutes.get("/login", userController.login);
+userRoutes.get("/register", userController.register);
+userRoutes.post("/validate", userController.validate);
+userRoutes.get("/account", userController.account);
+userRoutes.post("/logout", userController.logout);
 
 /**
  * DOCU: Export Router Module to App.js
  */
 
-module.exports = welcomeRoutes; 
+module.exports = userRoutes; 

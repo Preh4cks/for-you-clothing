@@ -1,0 +1,233 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Arimo:wght@100;200;300;400;600;700;800&family=Jost:wght@100;200;300;400;600;700;800&display=swap');
+
+/* Global Styling Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+  
+/* Variable Definition */  
+:root {
+  --color-cream: #FFF7EC; /* Base Color */
+  --color-beige: #FAEFE3; /* Base2 Color */
+  --color-light-blue: #4096CA; /* Base3 Color */
+  --color-powder-blue: #D2E6F3; /* Base4 Color */
+  --color-orange: #F0532F; /* Accent Color */
+  --color-light-orange: #e85c38; /* Accent Color */
+  --color-gray: #BCBCBC; /* Depth Color */
+  --color-dark-gray: #7F7F7F; /* Dark Gray */
+  --color-blue: #007CC0; /* Depth Color 2 */
+  --color-yellow: #FFF2D9; /* Highlight Color */
+  --color-green: #62b57e;
+  --font-arimo: 'Arimo', sans-serif; /* Text Font */
+  --font-jost: 'Jost', sans-serif; /* Heading Heading */
+  --sal-duration: 1.3s !important; /* Transition Animation Speed */
+  --size-h1: 28px; /* H1 Font Size */
+  --size-h2: 28px; /* H2 Font Size */
+  --size-h3: 19px; /* H3 Font Size */
+  --size-h4: 1.4rem; /* H4 Font Size */
+  --size-h6: 1.1rem; /* H6 Font Size */ 
+}
+
+/* Fix Horizontal Scrolling */
+html, body {
+  overflow-x: hidden;
+}
+
+html {
+  padding-bottom: 0px!important;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Body Style */
+body {
+  background-color: var(--color-cream);
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Default Anchor Tag */
+a {
+  color: black;
+}
+a, span {
+  text-decoration: none;
+  display: inline-block;
+}
+a:hover {
+  color: var(--color-orange);
+}
+a.black_button:hover {
+  color: white;
+}
+button:active, a:active {
+  background-color: transparent;
+}
+
+/* Default Text Font Style */
+p, span, label, td, a, strong, b, li {
+  line-height: 1.6em;
+  font-size: 13px;
+  font-family: var(--font-arimo);
+}
+
+/* Default Heading Font Style */
+h1, h2, h3, h4, h5, h6 {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-jost);
+}
+h1 {
+  font-size: var(--size-h1);
+}
+h2 {
+  font-size: var(--size-h2);
+}
+h3 {
+  font-size: var(--size-h3);
+}
+h4 {
+  font-size: var(--size-h4);
+}
+h5 {
+  font-size: var(--size-h5);
+}
+h6 {
+  font-size: var(--size-h6);
+}
+
+/* Removes the Dot */
+li {
+  list-style-type: none;
+}
+
+/* Default Input Style */
+input {
+  border-radius: 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid black;
+}
+input[type="search"] {
+  -webkit-appearance: none;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { 
+  cursor: pointer;
+  transform: scale(1.1); 
+}
+input, textarea {
+  font-family: var(--font-arimo);
+}
+textarea:focus, input:focus{
+  outline: none;
+}
+
+/* Price Slashed */
+.price_slashed {
+  text-decoration: line-through;
+  color: var(--color-orange);
+}
+
+/* Sale Tag */
+.sale_tag {
+  background-color: var(--color-orange);
+  color: white;
+  padding: 3px 7px;
+  vertical-align: top;
+  font-family: var(--font-arimo);
+  font-size: 9px;
+  letter-spacing: 1px;
+  margin-left: 5px;
+}
+/* Black Button Style */
+.black_button {
+  color: white!important;
+  padding: 15px 18px;
+  line-height: 1;
+  letter-spacing: 1.2px;
+  font-weight: 400;  
+  transition: all ease-out 0.2s;
+  background-color: black;
+  border: none!important;
+  cursor: pointer; 
+  font-family: var(--font-arimo);
+  letter-spacing: 0.19em;
+  font-size: 13px;
+}
+
+@media(max-width: 768px) {
+  /* Black & White Button Resize */
+  .white_button {
+    font-size: 0.8rem;
+  }
+  
+  /* Adjust Font Size on Mobile */
+  h1 { 
+    letter-spacing: initial;
+    font-size: 1.5rem;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
+  h4 {
+    font-size: 1.1rem;
+  }
+  h5 {
+    font-size: 1rem;
+  }
+  h6 {
+    font-size: 1rem;
+  }
+}
+
+/* White Button Style */
+.white_button {
+  padding: 10px 20px;
+  letter-spacing: 0.05em;
+  outline: none;
+  border: 1px solid black!important;
+  transition: all ease-out 0.2s; 
+  font-family: var(--font-arimo);
+  background: linear-gradient(to left, white 50%, black 50%) right;
+  background-size: 200%;
+  cursor: pointer;
+  color: black!important;
+  width: max-content;
+  letter-spacing: 0.19em;
+  font-size: 13px;
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  padding: 3px 6px;
+  font-size: 0.8rem;
+  color: white;
+  background-color: black;
+  border: 1px solid white;
+  box-shadow: 0 1px 3px 1px rgba(0,0,0,0.5); 
+  border-radius: 3px;
+}
+
+input[type=text], input[type=button] {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+}
+select {
+  color: black;
+}

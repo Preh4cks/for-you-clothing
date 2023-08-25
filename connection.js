@@ -19,7 +19,7 @@ if(db_name == 'postgres' || db_name == 'postgresql') {
     
     module.exports = pgp(`postgres://${config.database.user}:${config.database.password}@${config.database.host}:${config.database.port}/${config.database.database}`);
 } else if(db_name == 'mysql') {
-    const mysql = require('mysql');
+    const mysql = require('mysql2');
 
     module.exports = mysql.createConnection({
         "host": config.database.host,

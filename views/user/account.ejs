@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheets/settings.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Settings</title>
+</head>
+<body>
+    <section>
+        <h3><%= user.first_name %></h3>
+        <h3><%= user.last_name %></h3>
+        <h3><%= user.email %></h3>
+    </section>
+    <nav>
+        <form action="/logout" method="post" id="logout">
+            <input type="submit" value="Log Out!" />
+        </form>
+    </nav>
+</body>
+</html>

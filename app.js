@@ -52,8 +52,8 @@ const expressLayouts = require('express-ejs-layouts');
  * for routing from view page to another.
  */
 
-const welcomeRoutes = require('./routes/welcomeRoutes');
-const customerRoutes = require('./routes/customerRoutes');
+const userRoutes = require('./routes/userRoutes');
+const productRoutes = require('./routes/productRoutes');
 
  /**
  * DOCU: Load middleware module 
@@ -153,8 +153,8 @@ app.use(session({
  * DOCU: Load the routes module in app.
  */
 
-app.use(welcomeRoutes);
-app.use(customerRoutes);
+app.use(userRoutes);
+app.use(productRoutes);
 
 /**
  * DOCU: Use Middleware Logger that logs data to screen
