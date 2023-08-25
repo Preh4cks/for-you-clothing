@@ -23,6 +23,17 @@
         return this;
     }
 
+    /**DOCU: Checks if string contains non Alpha characters */
+    isNum() {
+        const pattern = /^[0-9]+$/;
+
+        if(!this.string.match(pattern)) {
+            this.errors[this.field_name] = `${this.field_name} must not contain any alpha or special characters`;
+        }
+
+        return this;
+    }
+
     /**DOCU: Sets field name and string used for validation this.errors */
     setField(field_name, string) {
         this.field_name = field_name;
