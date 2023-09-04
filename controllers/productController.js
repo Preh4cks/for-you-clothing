@@ -4,7 +4,9 @@ const db = require('../models/productModel');
  */
 
 class ProductController {
-    product(req, res) {
+    async product(req, res) {
+        // const user = await db.getProduct(req.body.email);
+
         res.render('../views/product/product');
     }
 }

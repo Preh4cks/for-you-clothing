@@ -10,7 +10,7 @@
   
 /* Variable Definition */  
 :root {
-  --color-cream: #FFF7EC; /* Base Color */
+  --color-cream: #F1EFE7; /* Base Color */
   --color-beige: #FAEFE3; /* Base2 Color */
   --color-light-blue: #4096CA; /* Base3 Color */
   --color-powder-blue: #D2E6F3; /* Base4 Color */
@@ -231,3 +231,40 @@ input[type=text], input[type=button] {
 select {
   color: black;
 }
+
+nav {
+  width: 100%;
+  border-bottom: 1px solid black;
+}
+  nav > .container {
+      max-width: 1280px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 20px;
+      align-items: center;
+  }
+      nav > .container > .left {
+          width: 50%;
+      }
+          nav > .container > .left > a {
+              width: max-content;
+              height: max-content;
+          }
+          nav > .container > .left > a > img {
+              height: 50px;
+              width: 150px;
+              object-fit: cover;
+          }
+      nav > .container > .right {
+          width: 50%;
+          text-align: end;
+      }
+          nav > .container > .right > a {
+              padding: 20px;
+              height: max-content;
+              font-family: var(--font-jost);
+              font-weight: 500;
+              font-size: 14.5px;
+          }
+

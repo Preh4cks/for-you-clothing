@@ -1,23 +1,55 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="stylesheets/settings.css">
+    <link rel="stylesheet" href="stylesheets/index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>Settings</title>
+    <title>Account</title>
+    <style>
+        .account_details {
+            max-width: max-content;
+            margin: 20px auto;
+            padding: 40px 20px;
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+        .account_details > h3 > span {
+            font-weight: 400;
+            font-size: 20px;
+        }
+    </style>
 </head>
 <body>
-    <section>
-        <h3><%= user.first_name %></h3>
-        <h3><%= user.last_name %></h3>
-        <h3><%= user.email %></h3>
-    </section>
     <nav>
-        <form action="/logout" method="post" id="logout">
-            <input type="submit" value="Log Out!" />
-        </form>
+        <div class="container">
+            <div class="left">
+                <a href="/">
+                    <img src="images/foriou logo.png" alt="">
+                </a>
+            </div>
+            <div class="right">
+                <a href="/shop">SHOP</a>
+                <a href="/cart">CART</a>
+              <% if(Object.keys(user).length == 0) { %>
+                <a href="/login">LOGIN</a>
+                <a href="/register">REGISTER</a>
+              <% } else { %>
+                <a href="/account">ACCOUNT</a>
+                <a href="/logout">LOGOUT</a>
+              <% } %>
+            </div>
+        </div>
     </nav>
+
+    <div class="account_details">
+        <h3>First Name: <span><%= user.first_name %></span></h3>
+        <h3>Last Name: <span><%= user.last_name %></span></h3>
+        <h3>Email: <span><%= user.email %></span></h3>
+        <h3>Contact No: <span><%= user.contact %></span></h3>
+        <h3>Gender: <span><%= user.gender %></span></h3>
+        <h3>Address: <span><%= user.address %>, <%= user.city_name %>, <%= user.state_name %>, <%= user.zip_code %></span></h3>
+    </div>
 </body>
 </html>

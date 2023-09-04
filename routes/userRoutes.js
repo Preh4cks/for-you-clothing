@@ -30,7 +30,8 @@ userRoutes.get("/login", userController.login);
 userRoutes.get("/register", userController.register);
 userRoutes.post("/validate", userController.validate);
 userRoutes.get("/account", userController.account);
-userRoutes.post("/logout", userController.logout);
+userRoutes.get("/logout", userController.logout);
+userRoutes.get("/admin", userController.admin);
 
 /**
  * DOCU: Export Router Module to App.js

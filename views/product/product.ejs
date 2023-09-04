@@ -6,17 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>Marvin</title>
+    <title><% product.name %></title>
 </head>
 <body>
     <nav>
-        <img src="images/marvin_logo.png" alt="Marvin Logo" id="marvin_logo"/>
-        <a href="/login">
-            <img src="images/avatar.png" alt="Avatar" id="avatar"/>
-        </a>
+        <div class="container">
+            <div class="left">
+                <a href="/">
+                    <img src="images/foriou logo.png" alt="">
+                </a>
+            </div>
+            <div class="right">
+                <a href="/shop">SHOP</a>
+                <a href="/cart">CART</a>
+                <a href="/login">LOGIN</a>
+                <a href="/register">REGISTER</a>
+            </div>
+        </div>
     </nav>
+
     <section>
-        THIS IS PRODUCT PAGE
+        <%= product.name %>
     </section>
 </body>
 </html>

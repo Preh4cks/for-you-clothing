@@ -25,7 +25,7 @@ const productController = require("../controllers/productController");
  * Routes the User from specific request.
  */
 
-productRoutes.get("/product", productController.product);
+productRoutes.get("/product/:id", productController.product);
 
 /**
  * DOCU: Export Router Module to App.js

@@ -4,29 +4,127 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="stylesheets/login.css">
+    <link rel="stylesheet" href="stylesheets/index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Login</title>
+    <style>
+        .login_section {
+            max-width: 1280px;
+            margin: 20px auto;
+            padding: 0px 20px;
+            display: flex; 
+            justify-content: space-between;
+        }
+            .login_section > .left {
+                width: 50%;
+            }
+                .login_section > .left > img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            .login_section > .right {
+                display: block;
+                width: 50%;
+                padding: 20px;
+                border: 1px solid black;
+                background-color: white;
+            }
+
+
+        #login_form > .inputs {
+            border: 1px solid black;
+            border-radius: 10px;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+            #login_form > .inputs > * {
+                width: 48%;
+                margin-bottom: 20px;
+            }
+            #login_form input[type=email], #login_form input[type=text], #login_form input[type=password], #login_form input[type=date] {
+                padding: 10px 20px;
+            }
+
+        #login_form > h1 {
+            margin-bottom: 20px;
+        }
+
+        #login_form > h6 {
+            margin-bottom: 10px;
+        }
+
+        #login_form > .black_button {
+            display: block;
+            min-width: 200px;
+            margin: 0 0 20px auto;
+        }
+        #login_form > .login {
+            display: block;
+            text-align: right;
+        }
+
+        .errors > p {
+            width: 100%;
+            padding: 10px 20px;
+            background-color: var(--color-yellow);
+            margin-bottom: 10px;
+        }
+
+    </style>
 </head>
 <body>
-<% if(Object.keys(errors).length !== 0) { %>
-    <div id="shadow"></div>
-    <div class="container">
-        <div class="cookiesContent" id="cookiesPopup">
-        <img src="https://cdn0.iconfinder.com/data/icons/seo-outline-black-part-3/128/search_Magnifying_Glass_Zoom_Spy_Hacker_Malware_criminal_Security-512.png" alt="cookies-img" />
-        <p>*<%= errors.message %></p>
-        <button class="accept">Okay, try again!</button>
+    <nav>
+        <div class="container">
+            <div class="left">
+                <a href="/">
+                    <img src="images/foriou logo.png" alt="">
+                </a>
+            </div>
+            <div class="right">
+                <a href="/shop">SHOP</a>
+                <a href="/cart">CART</a>
+                <a href="/login">LOGIN</a>
+                <a href="/register">REGISTER</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="login_section">
+        <div class="left">
+            <img src="https://cdn.pixabay.com/photo/2017/04/07/16/47/interview-2211354_1280.jpg" alt="Clothes">
+        </div>
+        <div class="right">
+            <form action="/validate" method="post" id="login_form">
+                <% if(Object.keys(errors).length !== 0) { %>
+                    <div class="errors">
+
+                    <% for(const error in errors) { %>
+                        <p>*<%= errors[error] %></p>
+                        <% break %>
+                    <% } %>
+
+                    </div>
+                <% } %>
+                <h1>Login</h1>
+
+
+                <!-- Login Details -->
+                <h6>Login Credentials</h6>
+                <div class="inputs">
+                    <input type="hidden" name="action" value="login" />
+                    <input type="text" name="email" placeholder="Email" />
+                    <input type="password" name="password" placeholder="Password" />
+                </div>
+
+                <input type="submit" value="Login" class="black_button"/>
+    
+                <a href="/register" class="login">I don't have an account</a>
+            </form>
         </div>
     </div>
-<% } %>
-    <form action="/validate" method="post" id="login_form">
-        <img src="images/avatar.png" alt="Avatar" id="avatar" />
-        <h2>Login</h2>
-        <input type="hidden" name="action" value="login" />
-        <input type="text" name="email" placeholder="Email" />
-        <input type="password" name="password" placeholder="Password" />
-        <input type="submit" value="Login" />
-    </form>
-    <a href="/register">I don't have an account</a>
 </body>
 </html>

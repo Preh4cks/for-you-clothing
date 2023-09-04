@@ -8,39 +8,29 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema foriou
 -- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema foryou_clothing
--- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `foriou` DEFAULT CHARACTER SET utf8 ;
+USE `foriou` ;
 
 -- -----------------------------------------------------
--- Schema foryou_clothing
+-- Table `foriou`.`admins`
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `foryou_clothing` DEFAULT CHARACTER SET utf8 ;
-USE `foryou_clothing` ;
 
--- -----------------------------------------------------
--- Table `foryou_clothing`.`admins`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `foryou_clothing`.`admins` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `email` VARCHAR(100) NULL DEFAULT NULL,
-  `password` VARCHAR(100) NULL DEFAULT NULL,
-  `salt` VARCHAR(100) NULL DEFAULT NULL,
-  `created_at` DATETIME NULL DEFAULT NULL,
-  `updated_at` DATETIME NULL DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `foriou`.`categories` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  `created_at` DATETIME NULL,
+  `updated_at` DATETIME NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb3;
-
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `foryou_clothing`.`customers`
+-- Table `foriou`.`customers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `foryou_clothing`.`customers` (
+CREATE TABLE IF NOT EXISTS `foriou`.`customers` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `is_admin` INT NULL,
   `first_name` VARCHAR(50) NULL DEFAULT NULL,
   `last_name` VARCHAR(50) NULL DEFAULT NULL,
   `email` VARCHAR(100) NULL,
@@ -62,9 +52,9 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `foryou_clothing`.`orders`
+-- Table `foriou`.`orders`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `foryou_clothing`.`orders` (
+CREATE TABLE IF NOT EXISTS `foriou`.`orders` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `customer_shipping_id` INT NOT NULL,
   `customer_billing_id` INT NOT NULL,
@@ -76,19 +66,18 @@ CREATE TABLE IF NOT EXISTS `foryou_clothing`.`orders` (
   INDEX `fk_orders_customers2_idx` (`customer_billing_id` ASC) VISIBLE,
   CONSTRAINT `fk_orders_customers1`
     FOREIGN KEY (`customer_shipping_id`)
-    REFERENCES `foryou_clothing`.`customers` (`id`),
+    REFERENCES `foriou`.`customers` (`id`),
   CONSTRAINT `fk_orders_customers2`
     FOREIGN KEY (`customer_billing_id`)
-    REFERENCES `foryou_clothing`.`customers` (`id`))
+    REFERENCES `foriou`.`customers` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 20
 DEFAULT CHARACTER SET = utf8mb3;
 
-
 -- -----------------------------------------------------
--- Table `foryou_clothing`.`product_categories`
+-- Table `foriou`.`product_categories`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `foryou_clothing`.`product_categories` (
+CREATE TABLE IF NOT EXISTS `foriou`.`product_categories` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(15) NULL DEFAULT NULL,
   `created_at` DATETIME NULL DEFAULT NULL,
@@ -98,15 +87,16 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8mb3;
 
-
 -- -----------------------------------------------------
--- Table `foryou_clothing`.`products`
+-- Table `foriou`.`products`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `foryou_clothing`.`products` (
+CREATE TABLE IF NOT EXISTS `foriou`.`products` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `category_id` INT NOT NULL,
   `name` VARCHAR(50) NULL DEFAULT NULL,
+  `vendor` VARCHAR(50) NULL DEFAULT NULL,
   `unit_price` DECIMAL(10,2) NULL DEFAULT NULL,
+  `discounted_price` DECIMAL(10,2) NULL DEFAULT NULL,
   `rating` DECIMAL(3,1) NULL DEFAULT NULL,
   `description` TEXT NULL DEFAULT NULL,
   `inventory_count` INT NULL DEFAULT NULL,
@@ -117,16 +107,41 @@ CREATE TABLE IF NOT EXISTS `foryou_clothing`.`products` (
   INDEX `fk_products_categories1_idx` (`category_id` ASC) VISIBLE,
   CONSTRAINT `fk_products_categories1`
     FOREIGN KEY (`category_id`)
-    REFERENCES `foryou_clothing`.`product_categories` (`id`))
+    REFERENCES `foriou`.`product_categories` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 13
 DEFAULT CHARACTER SET = utf8mb3;
 
+-- -----------------------------------------------------
+-- Table `foriou`.`product_categories`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `foriou`.`product_categories` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `created_at` DATETIME NULL DEFAULT NULL,
+  `updated_at` DATETIME NULL DEFAULT NULL,
+  `categories_id` INT NOT NULL,
+  `products_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_product_categories_categories1_idx` (`categories_id` ASC) VISIBLE,
+  INDEX `fk_product_categories_products1_idx` (`products_id` ASC) VISIBLE,
+  CONSTRAINT `fk_product_categories_categories1`
+    FOREIGN KEY (`categories_id`)
+    REFERENCES `mydb`.`categories` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_product_categories_products1`
+    FOREIGN KEY (`products_id`)
+    REFERENCES `foriou`.`products` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf8mb3;
 
 -- -----------------------------------------------------
--- Table `foryou_clothing`.`order_products`
+-- Table `foriou`.`order_products`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `foryou_clothing`.`order_products` (
+CREATE TABLE IF NOT EXISTS `foriou`.`order_products` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `order_id` INT NOT NULL,
   `product_id` INT NOT NULL,
@@ -140,10 +155,10 @@ CREATE TABLE IF NOT EXISTS `foryou_clothing`.`order_products` (
   INDEX `fk_order_details_orders1_idx` (`order_id` ASC) VISIBLE,
   CONSTRAINT `fk_order_details_orders1`
     FOREIGN KEY (`order_id`)
-    REFERENCES `foryou_clothing`.`orders` (`id`),
+    REFERENCES `foriou`.`orders` (`id`),
   CONSTRAINT `fk_product_lists_products1`
     FOREIGN KEY (`product_id`)
-    REFERENCES `foryou_clothing`.`products` (`id`))
+    REFERENCES `foriou`.`products` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 20
 DEFAULT CHARACTER SET = utf8mb3;

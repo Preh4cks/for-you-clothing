@@ -1,4 +1,5 @@
 const db = require('../models/userModel');
+const productdb = require('../models/productModel');
 
 /**
  * DOCU: The class Users loads the specific view page.
@@ -10,7 +11,13 @@ class UserModel {
      */
 
     index(req, res) {
-        res.render('../views/user/index');
+        if(!req.session.user) {
+            res.render('../views/user/index', { user: {} });
+            return;
+        }
+        const user = req.session.user[0];
+
+        res.render('../views/user/index', { user: user });
     }
 
     login(req, res) {
@@ -99,6 +106,12 @@ class UserModel {
         req.session.user = undefined;
 
         res.redirect('/');
+    }
+
+    async admin(req, res) {
+        const products = await productdb.getProducts();
+
+        res.render('../views/user/admin', {products: products});
     }
 }
 
