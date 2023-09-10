@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="/stylesheets/index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Admin</title>
     <style>
@@ -12,7 +12,7 @@
             padding: 20px;
             border: 1px solid black;
             width: 400px;
-            margin: 20px auto;
+            margin: 20px;
         }
         input, textarea {
             width: 100%;
@@ -23,7 +23,7 @@
         }
         
         .category_list {
-            margin: auto;
+            margin: 20px;
             width: 400px;
             border: 1px solid black;
         }
@@ -34,7 +34,21 @@
     </style>
 </head>
 <body>
-    <a href="/admin/categories" class="black_button">CATEGORIES</a>
-    <a href="/admin/products" class="black_button">PRODUCTS</a>
+<a href="/admin" class="black_button">Back</a>
+
+<div class="create_category">
+  <form action="/create/category" method="post">
+    <h6>Add Category</h6> <br>
+    <input type="text" name="category" placeholder="category" />
+    <input type="submit" value="CREATE" />
+  </form>
+</div>
+
+<div class="category_list">
+  <% for( let i = 0; i < categories.length; i++ ) { %>
+    <p><%= categories[i].name %></p>
+  <% } %>
+</div>
+
 </body>
 </html>

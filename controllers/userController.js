@@ -5,7 +5,7 @@ const productdb = require('../models/productModel');
  * DOCU: The class Users loads the specific view page.
  */
 
-class UserModel {
+class UserController {
     /**
      * DOCU: Loads the index page.
      */
@@ -109,9 +109,26 @@ class UserModel {
     }
 
     async admin(req, res) {
-        const products = await productdb.getProducts();
+        res.render('../views/user/admin');
+    }
 
-        res.render('../views/user/admin', {products: products});
+    async adminProducts(req, res) {
+        const products = await productdb.getProducts();
+        
+        res.render('../views/user/adminProducts', {products: products});
+    }
+
+    async adminCategories(req, res) {
+        const categories = await productdb.getCategories();
+
+        res.render('../views/user/adminCategories', {categories: categories});
+    }
+
+    async adminProduct(req, res) {
+        const product = (await productdb.getProduct(req.params.product_id))[0];
+        const categories = await productdb.getCategories();
+
+        res.render('../views/user/adminProduct', {product: product, categories: categories});
     }
 }
 
@@ -119,4 +136,4 @@ class UserModel {
  * DOCU: Export Survey object to routes.
  */
 
-module.exports = new UserModel();
+module.exports = new UserController();

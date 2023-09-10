@@ -18,7 +18,7 @@ USE `foriou` ;
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `foriou`.`categories` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   `created_at` DATETIME NULL,
   `updated_at` DATETIME NULL,
@@ -75,24 +75,10 @@ AUTO_INCREMENT = 20
 DEFAULT CHARACTER SET = utf8mb3;
 
 -- -----------------------------------------------------
--- Table `foriou`.`product_categories`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `foriou`.`product_categories` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(15) NULL DEFAULT NULL,
-  `created_at` DATETIME NULL DEFAULT NULL,
-  `updated_at` DATETIME NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 3
-DEFAULT CHARACTER SET = utf8mb3;
-
--- -----------------------------------------------------
 -- Table `foriou`.`products`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `foriou`.`products` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `category_id` INT NOT NULL,
   `name` VARCHAR(50) NULL DEFAULT NULL,
   `vendor` VARCHAR(50) NULL DEFAULT NULL,
   `unit_price` DECIMAL(10,2) NULL DEFAULT NULL,
@@ -103,11 +89,7 @@ CREATE TABLE IF NOT EXISTS `foriou`.`products` (
   `quantity_sold` INT NULL DEFAULT NULL,
   `created_at` DATETIME NULL DEFAULT NULL,
   `updated_at` DATETIME NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_products_categories1_idx` (`category_id` ASC) VISIBLE,
-  CONSTRAINT `fk_products_categories1`
-    FOREIGN KEY (`category_id`)
-    REFERENCES `foriou`.`product_categories` (`id`))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 13
 DEFAULT CHARACTER SET = utf8mb3;
@@ -126,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `foriou`.`product_categories` (
   INDEX `fk_product_categories_products1_idx` (`products_id` ASC) VISIBLE,
   CONSTRAINT `fk_product_categories_categories1`
     FOREIGN KEY (`categories_id`)
-    REFERENCES `mydb`.`categories` (`id`)
+    REFERENCES `foriou`.`categories` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_product_categories_products1`

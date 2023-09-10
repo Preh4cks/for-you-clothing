@@ -9,6 +9,24 @@ class ProductController {
 
         res.render('../views/product/product');
     }
+
+    async createCategory(req, res) {
+        await db.createCategory(req.body.category);
+
+        res.redirect('/admin/categories');
+    }
+
+    async createProduct(req, res) {
+        await db.createProduct(req);
+
+        res.redirect('/admin/products');
+    }
+
+    async createProductCategories(req, res) {
+        await db.createProductCategories(req);
+
+        res.redirect('/admin/product/' + req.body.product_id);
+    }
 }
 
 /**
