@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `foriou`.`customers` (
   `updated_at` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
+AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `foriou`.`orders` (
     FOREIGN KEY (`customer_billing_id`)
     REFERENCES `foriou`.`customers` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 20
+AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb3;
 
 -- -----------------------------------------------------
@@ -85,13 +85,34 @@ CREATE TABLE IF NOT EXISTS `foriou`.`products` (
   `discounted_price` DECIMAL(10,2) NULL DEFAULT NULL,
   `rating` DECIMAL(3,1) NULL DEFAULT NULL,
   `description` TEXT NULL DEFAULT NULL,
+  `image_url` TEXT NULL DEFAULT NULL,
   `inventory_count` INT NULL DEFAULT NULL,
   `quantity_sold` INT NULL DEFAULT NULL,
   `created_at` DATETIME NULL DEFAULT NULL,
   `updated_at` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 13
+AUTO_INCREMENT = 0
+DEFAULT CHARACTER SET = utf8mb3;
+
+-- -----------------------------------------------------
+-- Table `foriou`.`ratings`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `foriou`.`ratings` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `rating` DECIMAL(3,1) NULL DEFAULT NULL,
+  `created_at` DATETIME NULL DEFAULT NULL,
+  `updated_at` DATETIME NULL DEFAULT NULL,
+  `products_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_product_ratings_ratings1_idx` (`products_id` ASC) VISIBLE,
+  CONSTRAINT `fk_product_ratings_ratings1`
+    FOREIGN KEY (`products_id`)
+    REFERENCES `foriou`.`products` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb3;
 
 -- -----------------------------------------------------
@@ -117,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `foriou`.`product_categories` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb3;
 
 -- -----------------------------------------------------
@@ -142,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `foriou`.`order_products` (
     FOREIGN KEY (`product_id`)
     REFERENCES `foriou`.`products` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 20
+AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb3;
 
 

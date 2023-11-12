@@ -178,6 +178,18 @@
     </section>
 
     <script>
+        fetch('')
+          .then(response => response.json())
+          .then(data => {
+            // Handle the data on the frontend
+            console.log(data);
+            // Modify the data using JavaScript as needed
+          })
+          .catch(error => console.error('Error:', error));
+
+
+
+
         // Dataset [Price, Reviews, Discount, Tags, Text, Age, Gender]
         const DATASET = [
             // Price, Reviews, Discount, Tags, Text, Age, Gender,
@@ -1375,7 +1387,7 @@
         }
     
         // Train Split
-        const TRAIN_SPLIT = 0.8;
+        const TRAIN_SPLIT = 0.8; // @TODO UPDATE LATER
         // const TRAIN_DATASET = DATASET.slice(0, DATASET.length * TRAIN_SPLIT);
         const TRAIN_DATASET = DATASET;
         // const TEST_DATASET = DATASET.slice(DATASET.length * TRAIN_SPLIT, DATASET.length + 1);
@@ -1411,7 +1423,6 @@
               highest_price = product_list[i].discounted_price;
             }
           }
-    
     
           return highest_price;
         }

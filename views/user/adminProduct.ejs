@@ -9,34 +9,78 @@
     <title>Admin</title>
     <style>
         form {
-            padding: 20px;
-            border: 1px solid black;
-            width: 400px;
-            margin: 20px;
+          /* border: 1px solid black; */
+          width: 200px;
+          margin: 0px 10px;
         }
+
+        .create_category {
+          border: 1px solid black;
+          width: max-content;
+          display: flex;
+          /* margin: 10px 20px; */
+          padding: 20px;
+        }
+
         input, textarea, select {
-            width: 100%;
-            padding: 10px 20px;
-            border: 1px solid black;
-            margin-bottom: 10px;
-            background-color: transparent;
+          width: 100%;
+          padding: 10px 20px;
+          border: 1px solid black;
+          margin-bottom: 10px;
+          background-color: transparent;
         }
+
+        input[type="submit"] {
+          cursor: pointer;
+        }
+
+        select {
+          height: 37px;
+        }
+
+        .submit {
+          background-color: greenyellow;
+        }
+        .submit:hover {
+          background-color: green;
+          color: white;
+        }
+
     </style>
 </head>
 <body>
-<a href="/admin/products" class="black_button">Back</a>
-<div class="create_product">
-  
-  <form action="/create/product-categories" method="post">
-    <h6>Attatch Tags</h6> <br>
-    <input type="hidden" name="product_id" value="<%= product.id %>">
-    <select name="category_id" id="">
-      <% for( let i = 0; i < categories.length; i++ ) { %>
-        <option value="<%= categories[i].id %>"><%= categories[i].name %></option>
-      <% } %>
-    </select>
-    <input type="submit" value="ATTACH">
-  </form>
-</div>
+  <a href="/admin/products" class="black_button">Back</a>
+  <div id="product_details">
+    <h1>Name: <%= product.name %> #<%= product.id %></h1>
+    <p>Unit Price: <%= product.unit_price %></p>
+    <p>Discounted Price: <%= product.discounted_price ? product.discounted_price : product.unit_price %></p>
+    <p>Vendor: <%= product.vendor %></p>
+    <p>Categories: <%= product.categories %></p>
+    <p>Ratings: <%= product.rating ? product.rating : '2.5' %></p>
+    <p>Description: <%= product.description %></p>
+    <p>Stocks: <%= product.inventory_count %>pcs</p>
+    <p>Unit Sold: <%= product.quantity_sold ? product.quantity_sold : '0'%>pcs</p>
+  </div>
+
+  <div class="create_category">
+    <form action="/create/category" method="post">
+      <h6>Create New Category</h6> <br>
+      <input type="hidden" name="product_id" value="<%= product.id %>">
+      <input type="text" name="category" placeholder="Category Name" />
+      <input class="submit" type="submit" value="CREATE" />
+    </form>
+
+    <form action="/create/product-categories" method="post">
+      <h6>Attach Category</h6> <br>
+      <input type="hidden" name="product_id" value="<%= product.id %>">
+      <select name="category_id" id="">
+        <% for( let i = 0; i < categories.length; i++ ) { %>
+          <option value="<%= categories[i].id %>"><%= categories[i].name %></option>
+        <% } %>
+      </select>
+      <input class="submit" type="submit" value="ATTACH">
+    </form>
+  </div>
+
 </body>
 </html>

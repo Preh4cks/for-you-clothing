@@ -1,5 +1,5 @@
-const db = require('../models/userModel');
-const productdb = require('../models/productModel');
+const user_db = require('../models/userModel');
+const product_db = require('../models/productModel');
 
 /**
  * DOCU: The class Users loads the specific view page.
@@ -10,14 +10,17 @@ class UserController {
      * DOCU: Loads the index page.
      */
 
-    index(req, res) {
+    async index(req, res) {
+        const products = await product_db.getProducts();
+
         if(!req.session.user) {
-            res.render('../views/user/index', { user: {} });
+            res.render('../views/user/index', { user: {}, products: products });
             return;
         }
+
         const user = req.session.user[0];
 
-        res.render('../views/user/index', { user: user });
+        res.render('../views/user/index', { user: user, products: products });
     }
 
     login(req, res) {
@@ -62,8 +65,8 @@ class UserController {
         }
 
         if(action == 'login') {
-            const user = await db.getUser(req.body.email);
-            const isValidCredentials = db.validateUser(req, user); 
+            const user = await user_db.getUser(req.body.email);
+            const isValidCredentials = user_db.validateUser(req, user); 
 
             if(isValidCredentials) { // Check if valid credentials
                 res.redirect('/account');
@@ -74,12 +77,12 @@ class UserController {
             res.redirect('/login');
             return;
         } else if(action == 'register') {
-            const user = await db.getUser(req.body.email);
+            const user = await user_db.getUser(req.body.email);
 
             if(user[0]) {
                 req.session.errors['message'] = "Email Already Exists!";
             } else {
-                db.addUser(req);
+                user_db.addUser(req);
             }
             res.redirect('/register');
             return;
@@ -110,25 +113,6 @@ class UserController {
 
     async admin(req, res) {
         res.render('../views/user/admin');
-    }
-
-    async adminProducts(req, res) {
-        const products = await productdb.getProducts();
-        
-        res.render('../views/user/adminProducts', {products: products});
-    }
-
-    async adminCategories(req, res) {
-        const categories = await productdb.getCategories();
-
-        res.render('../views/user/adminCategories', {categories: categories});
-    }
-
-    async adminProduct(req, res) {
-        const product = (await productdb.getProduct(req.params.product_id))[0];
-        const categories = await productdb.getCategories();
-
-        res.render('../views/user/adminProduct', {product: product, categories: categories});
     }
 }
 

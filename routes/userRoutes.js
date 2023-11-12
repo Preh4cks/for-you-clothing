@@ -32,9 +32,6 @@ userRoutes.post("/validate", userController.validate);
 userRoutes.get("/account", userController.account);
 userRoutes.get("/logout", userController.logout);
 userRoutes.get("/admin", userController.admin);
-userRoutes.get("/admin/products", userController.adminProducts);
-userRoutes.get("/admin/categories", userController.adminCategories);
-userRoutes.get("/admin/product/:product_id", userController.adminProduct);
 
 /**
  * DOCU: Export Router Module to App.js
