@@ -11,16 +11,16 @@ class UserController {
      */
 
     async index(req, res) {
-        const products = await product_db.getProducts();
+        let user = {
+            gender: undefined,
+            age: undefined
+        };
 
-        if(!req.session.user) {
-            res.render('../views/user/index', { user: {}, products: products });
-            return;
+        if(req.session.user) {
+            user = req.session.user[0];
         }
 
-        const user = req.session.user[0];
-
-        res.render('../views/user/index', { user: user, products: products });
+        res.render('../views/user/index', { user: user });
     }
 
     login(req, res) {
@@ -107,7 +107,6 @@ class UserController {
 
     logout(req, res) {
         req.session.user = undefined;
-
         res.redirect('/');
     }
 

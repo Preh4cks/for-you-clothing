@@ -26,6 +26,7 @@ const productController = require("../controllers/productController");
  */
 
 productRoutes.get("/product/:id", productController.product);
+productRoutes.get("/products/getSortedProducts", productController.getSortedProducts);
 productRoutes.post("/create/category", productController.createCategory);
 productRoutes.post("/create/product", productController.createProduct);
 productRoutes.post("/create/product-categories", productController.createProductCategories);

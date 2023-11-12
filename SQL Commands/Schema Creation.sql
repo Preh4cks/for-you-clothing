@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `foriou`.`products` (
   `vendor` VARCHAR(50) NULL DEFAULT NULL,
   `unit_price` DECIMAL(10,2) NULL DEFAULT NULL,
   `discounted_price` DECIMAL(10,2) NULL DEFAULT NULL,
-  `rating` DECIMAL(3,1) NULL DEFAULT NULL,
+  `rating` DECIMAL(3,2) NULL DEFAULT NULL,
   `description` TEXT NULL DEFAULT NULL,
   `image_url` TEXT NULL DEFAULT NULL,
   `inventory_count` INT NULL DEFAULT NULL,

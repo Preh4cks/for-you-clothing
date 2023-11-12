@@ -1,4 +1,5 @@
 const db = require('../models/productModel');
+db.trainModel();
 
 /**
  * DOCU: The class Users loads the specific view page.
@@ -45,6 +46,22 @@ class ProductController {
         const categories = await db.getCategories();
 
         res.render('../views/user/adminProduct', {product: product, categories: categories});
+    }
+
+    // @TODO ADD DESCRIPTION LATER
+    async getSortedProducts(req, res) {
+        let user = {
+            gender: undefined,
+            age: undefined
+        };
+
+        if(req.session.user) {
+            user = req.session.user[0];
+        }
+
+        const products = await db.getSortedProducts(user);
+
+        res.json(products);
     }
 }
 

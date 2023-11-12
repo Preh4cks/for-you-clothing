@@ -62,15 +62,15 @@ class UserModel {
             return;
         }
 
-        const birth_date = () => {
-            let [d, m, y] = birthdate.split(/\D/);
-            return (new Date(y, m-1, d)).toLocaleString([['sv-SE']]);
+        const parseDMY = s => {
+            let [d, m, y] = s.split(/\D/);
+            return new Date(y, m-1, d);
         };
                 
         uniq.queryNone(
             `INSERT INTO customers(first_name, last_name, email, contact, password, salt, zip_code, gender, address, birthdate, city_name, state_name, created_at, updated_at)
             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`, 
-            [first_name, last_name, email, contact, password, salt, zip, gender, address, birth_date, city, state]
+            [first_name, last_name, email, contact, password, salt, zip, gender, address, parseDMY(birthdate).toLocaleString([['sv-SE']]), city, state]
         );
 
         req.session.errors['message'] = "User Registration Success!";

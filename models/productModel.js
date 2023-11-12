@@ -1,6 +1,10 @@
 // const validator = require('../static/lib/validator/validator');
 const uniq = require('../static/lib/universal-query/universalQuery');
+const rankingSort = require('../static/lib/ranking-sort/rankingSort');
 const xssFilter = require('xss-filters');
+const fs = require('fs');
+const DATASET = JSON.parse(fs.readFileSync('datasets/ranking_sort_v1.json', 'utf8'));
+let weights;
 
 class ProductModel {
   // @TODO ADD DESCRIPTION LATER
@@ -19,7 +23,13 @@ class ProductModel {
   
   // @TODO ADD DESCRIPTION LATER
   getProducts() {
-    return uniq.queryAll('SELECT * FROM products');
+    return uniq.queryAll(
+      `SELECT p.*, GROUP_CONCAT(c.name) AS categories
+      FROM products p 
+      LEFT JOIN product_categories pc ON p.id = pc.products_id
+      LEFT JOIN categories c ON pc.categories_id = c.id
+      GROUP BY p.id`
+    ); 
   }
   
   // @TODO ADD DESCRIPTION LATER
@@ -149,6 +159,85 @@ class ProductModel {
     );
 
     return true;
+  }
+
+  async getSortedProducts(customer) {
+    let products = await this.getProducts();
+    
+    products.forEach(product => {
+      product.tags = product.categories.split(",");
+      product.discounted_price = parseFloat(product.discounted_price);
+      product.unit_price = parseFloat(product.unit_price);
+      product.rating = parseFloat(product.rating);
+    });
+
+    console.log(products);
+
+    
+    const HIGHEST_PRICE = rankingSort.getHighestPrice(products);
+    const OLDEST_CUSTOMER = 60;
+    const YOUNGEST_CUSTOMER = 16;
+    const AVERAGE_VALUE = 0.5;
+
+    let customer_age_value = AVERAGE_VALUE;
+    let customer_gender = AVERAGE_VALUE;
+
+    if (customer.gender == "male") {
+      customer_gender = 1;
+    } else if(customer.gender == "female") {
+      customer_gender = 0;
+    }
+
+    customer_age_value = rankingSort.getPercentValue(OLDEST_CUSTOMER, YOUNGEST_CUSTOMER, customer.age || AVERAGE_VALUE);
+
+    // const text = $('#texts').val();
+    
+    for(let i = 0; i < products.length; i++) {
+      // Price=, Reviews=, Discount, Tags, Text, Age, Gender,
+      let highest_price_value = rankingSort.getPercentValue(HIGHEST_PRICE, 0, products[i].discounted_price);
+      let reviews_value = products[i].rating;
+      let discount_value = rankingSort.getPercentValue(products[i].unit_price, 0, products[i].discounted_price);
+      // let tag_score = Number(products[i].tags.includes($('#tags').val()));
+      // let text_score = getMatchScore(products[i].name, text);
+      let tag_score = 0.5;
+      let text_score = 0.5;
+      let gender_matches = rankingSort.matchGender(customer_gender, products[i].tags);
+      
+      console.log(HIGHEST_PRICE);
+
+      let sampleProduct = [highest_price_value, reviews_value, discount_value, tag_score, text_score, customer_age_value, gender_matches];
+
+      let rank = rankingSort.adjust(rankingSort.sigmoid(rankingSort.dotProduct(sampleProduct, weights)));
+      products[i].sort_score = rank;
+    }
+
+    products.sort((product, pivot_product) => {
+      return pivot_product.sort_score - product.sort_score;
+    });
+
+
+    return products;
+  }
+
+  
+  trainModel() {
+    const TRAIN_DATASET = DATASET.data;
+
+    // Learning Rate for lowest Cost Function [0.01 - 1]
+    const LEARNING_RATE = 0.01;
+    // Learning Itterations for lowest Cost Function [1 - 500] 420
+    const LEARNING_ITTERATIONS = 420;
+
+    // Extract features and labels from the dataset
+    const features = TRAIN_DATASET.map((data) => data.features);
+    const labels = TRAIN_DATASET.map((data) => data.label);
+  
+    // Initialize weights with zeros
+    const numFeatures = features[0].length;
+    weights = new Array(numFeatures).fill(0);
+  
+    
+    rankingSort.gradientDescent(features, labels, weights, LEARNING_RATE, LEARNING_ITTERATIONS);
   }
 }
 
