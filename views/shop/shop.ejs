@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheets/index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Foryou Clothing | Shop</title>
+    <script src="scripts/functions.js"></script> 
+    <script src="scripts/api.js"></script> 
+    <script src="scripts/range_slider.js"></script> 
+    <style>
+      #collection {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0px 20px;
+        padding-right: 40px;
+        display: flex;
+        position: relative;
+        justify-content: space-between;
+      }
+        #collection > p {
+          margin-bottom: 10px;
+        }
+        #collection > #item_container {
+          display: flex;
+          flex-flow: wrap;
+          width: 70%;
+          justify-content: space-evenly;
+          border-top: 1px solid darkgray;
+          padding: 10px 0px;
+          margin-right: 10px;
+        }
+        #collection.description > #item_container {
+          margin-top: 65px;
+        }
+
+        #filter_container {
+          margin: auto;
+          display: flex;
+          justify-content: space-between;
+          max-width: 1280px;
+          margin-top: 40px;
+          padding: 0px 20px;
+          padding-right: 50px;
+        }
+
+        #sort_items {
+          position: relative;
+        }
+          #sort_items > #current {
+            cursor: pointer;
+            font-family: var(--font-jost);
+            padding: 10px 20px;
+            padding-right: 0;
+            font-size: 0.9rem;
+            text-decoration: underline;
+          }
+          #sort_items #current[toggle-active="1"]~#dropdown {
+            display: block;
+          }
+          #sort_items > #dropdown {
+            display: none;
+            position: absolute;
+            width: max-content;
+            background-color: white;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            box-shadow: 0px 0px 15px 0px #d3d3d3;
+            right: 20px;
+            z-index: 99;
+            padding: 10px 10px;
+          }
+          #sort_items > #dropdown > a:hover {
+            background-color: var(--color-orange);
+            color: white;
+            text-decoration: underline;
+          }
+          #sort_items > #dropdown > a {
+            display: block;
+            font-size: 0.9rem;
+            padding: 5px 20px;
+            font-family: var(--font-jost);
+            cursor: pointer;
+            border-radius: 5px;
+          }
+
+          #item_container .item {
+            width: 33%;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+          }
+            #item_container .item > .img_container {
+              width: 100%;
+              margin-bottom: 20px;
+              padding: 0px 10px;
+              max-height: 300px;
+              min-height: 300px;
+            }
+              #item_container .item > .img_container > img {
+                width: 100%;
+                height: 100%;
+                max-height: 300px;
+                min-height: 300px;
+                object-fit: cover;
+                margin: auto;
+                margin-bottom: 10px;
+                float: right;
+              }
+              #item_container .item > .img_container > .img2 {
+                display: none;
+                max-height: 300px;
+                min-height: 300px;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+              }
+            #item_container .item > .vendor_name {
+              margin-top: 10px;
+              display: block;
+              font-weight: 600;
+            }
+            #item_container .item > .product_name {
+              display: block;
+              height: 40px;
+              margin-bottom: 10px;
+              padding: 0px 10px;
+            }
+            #item_container .item > .product_price {
+              font-size: 0.8rem;
+              margin-bottom: 5px;
+              margin-right: 5px;
+              font-family: var(--font-arimo);
+            }
+            #item_container .item > .ratings {
+              display: block;
+              font-size: 0.8rem;
+              font-weight: 600;
+              margin-bottom: 5px;
+              margin-right: 5px;
+              font-family: var(--font-arimo);
+            }
+            #item_container .item > .product_price.slashed {
+              text-decoration: line-through;
+              color: var(--color-orange);
+            }
+            #item_container .item > .sale_tag {
+              position: absolute;
+              top: 10px;
+              right: 0px;
+            }
+            #item_container .item .jdgm-widget.jdgm-preview-badge.jdgm-preview-badge--with-link.jdgm--done-setup {
+              width: auto!important;
+              scale: 0.8;
+            }
+
+      #filter_box {
+        padding: 20px;
+        margin-top: -53px;
+        margin-left: 20px;
+      }
+      #filter_box > h5 {
+        margin: auto;
+        max-width: 200px;
+      }
+      .min-max-slider {
+        position: relative; 
+        width: 200px;
+        margin: auto; 
+        text-align: center;
+        margin-bottom: 50px;
+      }
+      #search_container {
+        padding: 20px 0;
+        width: 200px;
+        margin: auto;
+      }
+      #search_container > input {
+        width: 100%;
+        padding: 8px 0;
+        margin-top: 10px;
+      }
+
+
+      #collection_label {
+        position: absolute;
+        top: -35px;
+        display: flex;
+        left: 31%;
+        flex-direction: column;
+        max-width: 600px;
+      }
+        #collection_label .top {
+          display: flex;
+          align-items: end;
+        }
+        #collection_label .bottom {
+          margin-top: 10px;
+          display: flex;
+          align-items: end;
+          justify-content: space-between;
+        }
+        #collection_label .bottom * {
+          font-size: 13px;
+          display: inline;
+        }
+        #collection_label h5 { 
+          padding-right: 10px;
+        }
+
+      #filter_container.description #sort_items > #current {
+        position: absolute;
+        width: max-content;
+        right: 0px;
+        top: 65px;
+        z-index: 9;
+      }
+      #filter_container.description #sort_items > #dropdown {
+        top: 105px;
+      }
+
+      @media(max-width: 768px) {
+        #filter_container.description #sort_items > #current {
+          position: relative; 
+          width: 100%;
+          top: 0px;
+        }
+        #filter_container.description #sort_items > #dropdown {
+          top: unset;
+        }  
+        #collection_label {
+          text-align: center;
+          width: 100%;
+        }
+        #collection_label .top {
+          width: 100%;
+          flex-direction: column;
+          align-items: center;
+        }
+        #collection_label h5 {
+          text-align: center;
+          padding-right: 0px;
+        }
+        
+        
+        #collection.description > #item_container {
+          margin-top: 130px;
+        }    
+      }
+
+      h5 {
+        font-size: 1.2rem;
+      }
+
+      #mobile_filters {
+        visibility: hidden;
+        cursor: pointer;
+        font-family: var(--font-jost);
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        text-decoration: underline;
+      }
+      #tool_type {
+        max-width: 200px;
+        margin: 10px auto;
+        padding: 20px 0;
+      }
+      #tool_type > h6 {
+        margin-bottom: 10px;
+      }
+      #tool_type > input {
+        scale: 1.3;
+        margin: 10px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        accent-color: var(--color-orange);
+      }
+      #tool_type > label {
+        font-size: 0.9rem;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      #tool_type > label:hover {
+        color: var(--color-orange);
+      }
+
+      #range_slider_container {
+        max-width: 200px;
+        margin: 10px auto;
+        padding: 20px 0;
+      }
+      #range_slider_container > h6 {
+        margin-bottom: 10px;
+      }
+
+      @media (max-width: 768px) {
+        #filter_container {
+          padding: 0px;
+          background-color: black;
+          color: white;
+          margin-top: 10px;
+        }
+        #mobile_filters {
+          visibility: visible;
+          width: 50%;
+          text-align: center;
+        }
+        #sort_items {
+          width: 50%;
+        }
+        #sort_items > #current {
+          width: 100%;
+          padding: 10px;
+          text-align: center;
+          border-left: 1px solid white;
+        }
+        #sort_items > #current:after {
+          display: none;
+        }
+        #collection {
+          padding: 0px;
+        }
+        #filter_box {
+          margin-top: 0px;
+          left: -75vw;
+          width: 75vw;
+          height: 100vh;
+          margin-left: 0px;
+          position: fixed;
+          top: 0px;
+          z-index: 999999999;
+          background-color: var(--color-cream);
+          overflow-y: auto;
+          padding: 20px;
+        }
+        #collection > #item_container {
+          width: 100%;
+          min-height: 300px;
+          margin-top: 40px;
+          border: none;
+          margin-right: 0px;
+        }
+        #tool_type > label {
+          font-size: 0.8rem;
+          cursor: pointer;
+        }
+        #collection_label {
+          top: 13px;
+          left: 0px;
+          width: 100%;
+          padding: 0px 20px;
+        }
+        #collection .item {
+          margin: 0px 10px 40px 10px;
+          width: 25%;
+        }
+        #collection .item > .img_container > img {
+          max-height: 250px;
+          min-height: 250px;
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+        #collection .item > .img_container .img2 {
+          display: none;
+        }
+        #collection .item:hover > .img_container .img2 {
+          display: none;
+        }
+      }
+
+
+      @media (max-width: 480px) {
+        #collection .item {
+          margin: 0px auto 40px 10px;
+          width: 43%;
+        }
+          #collection .item > .vendor_name {
+            font-size: 13px;
+          }
+          #collection .item * {
+            font-size: 13px;
+          }
+          #collection .item > .img_container {
+              height: 250px;
+            }
+      }
+
+      /* This line can be removed it was just for display on CodePen: */
+      .container {
+        margin-top: 125px;
+      }
+
+      .slider-labels {
+        margin-top: 10px;
+      }
+
+      /* Functional styling;
+      * These styles are required for noUiSlider to function.
+      * You don't need to change these rules to apply your design.
+      */
+      .noUi-target,.noUi-target * {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -ms-touch-action: none;
+        touch-action: none;
+        -ms-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+
+      .noUi-target {
+        position: relative;
+        direction: ltr;
+      }
+
+      .noUi-base {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        z-index: 1;
+      /* Fix 401 */
+      }
+
+      .noUi-origin {
+        position: absolute;
+        right: 0;
+        top: 0;
+        left: 0;
+        bottom: 0;
+      }
+
+      .noUi-handle {
+        position: relative;
+        z-index: 1;
+      }
+
+      .noUi-stacking .noUi-handle {
+      /* This class is applied to the lower origin when
+        its values is > 50%. */
+        z-index: 10;
+      }
+
+      .noUi-state-tap .noUi-origin {
+        -webkit-transition: left 0.3s,top .3s;
+        transition: left 0.3s,top .3s;
+      }
+
+      .noUi-state-drag * {
+        cursor: inherit !important;
+      }
+
+      /* Painting and performance;
+      * Browsers can paint handles in their own layer.
+      */
+      .noUi-base,.noUi-handle {
+        -webkit-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+      }
+
+      /* Slider size and handle placement;
+      */
+      .noUi-horizontal {
+        height: 4px;
+      }
+
+      .noUi-horizontal .noUi-handle {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        left: -7px;
+        top: -8px;
+        cursor: pointer;
+        background-color: white;
+        border: 1px solid darkgray;
+      }
+      .noUi-horizontal .noUi-handle:hover {
+        background-color: var(--color-orange);
+      }
+
+      /* Styling;
+      */
+      .noUi-background {
+        background: #D6D7D9;
+      }
+
+      .noUi-connect {
+        background: darkgray;
+        -webkit-transition: background 450ms;
+        transition: background 450ms;
+      }
+
+      .noUi-active {
+        background-color: var(--color-orange)!important;
+      }
+
+      .noUi-origin {
+        border-radius: 2px;
+      }
+
+      .noUi-target {
+        border-radius: 2px;
+      }
+
+      /* Handles and cursors;
+      */
+      .noUi-draggable {
+        cursor: w-resize;
+      }
+
+      .noUi-vertical .noUi-draggable {
+        cursor: n-resize;
+      }
+
+      .noUi-handle {
+        cursor: default;
+        -webkit-box-sizing: content-box !important;
+        -moz-box-sizing: content-box !important;
+        box-sizing: content-box !important;
+      }
+
+      .noUi-handle:active {
+        border: 8px solid #345DBB;
+        border: 8px solid rgba(53,93,187,0.38);
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+        left: -14px;
+        top: -14px;
+      }
+
+      /* Disabled state;
+      */
+      [disabled].noUi-connect,[disabled] .noUi-connect {
+        background: #B8B8B8;
+      }
+
+      [disabled].noUi-origin,[disabled] .noUi-handle {
+        cursor: not-allowed;
+      }
+
+      .slider-labels {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0px 10px 0px; 
+      }
+
+      #value_contiainer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+      }
+
+      #slider-range {
+        width: 89%;
+        margin-left: 8px;
+        max-height: 2px;
+      }
+    </style>
+
+</head>
+<body>
+  <nav>
+    <div class="container">
+        <div class="left">
+            <a href="/">
+                <img src="images/foriou logo.png" alt="">
+            </a>
+        </div>
+        <div class="right">
+            <a href="/shop">SHOP</a>
+            <a href="/cart">CART</a>
+          <% if(!user.id) { %>
+            <a href="/login">LOGIN</a>
+            <a href="/register">REGISTER</a>
+          <% } else { %>
+            <a href="/account">ACCOUNT</a>
+            <a href="/logout">LOGOUT</a>
+          <% } %>
+        </div>
+    </div>
+  </nav>
+  <div id="filter_container">
+    <div id="mobile_filters">FILTER BY</div>
+    <div id="sort_items">
+      <div id="current" toggle-active=0>SORT BY</div>
+      <div id="dropdown">
+        <a sort-key="featured" key="relevance">Featured</a>
+        <a sort-key="most_recent" key="created_at">Most Recent</a>
+        <a sort-key="a_to_z" key="title">A to Z</a>
+        <a sort-key="z_to_a" key="title">Z to A</a>
+        <a sort-key="lowest_to_highest" key="price">Lowest to Highest Price</a>
+        <a sort-key="highest_to_lowest" key="price">Highest to Lowest Price</a>
+      </div>
+    </div>
+  </div>
+  
+  <section id="collection">
+    <div id="filter_box">
+      <h5>Filters</h5>
+      <div id="search_container">
+        <input type="search" placeholder="Search" id="search" value=""/>
+      </div>
+      <div id="range_slider_container">
+        <h6>Price Range</h6>
+        <input type="hidden" name="min-value" value="">
+        <input type="hidden" name="max-value" value="">
+        <div class="slider-labels">
+          <div class="caption">
+            <strong>Min</strong> 
+          </div>
+          <div class="text-right caption">
+            <strong>Max</strong> 
+          </div>
+        </div>
+          <div id="slider-range"></div>
+          <div id="value_contiainer">
+            <span id="slider-range-value1"></span>
+            <span id="slider-range-value2"></span>
+          </div>
+      </div>
+    </div>
+    <div id="collection_label">
+      <div class="top">
+        <h5>Shop All</h5>
+        <p></p>
+      </div>
+    </div>
+    <div id="item_container">
+    </div> 
+  </section>
+  <script>
+    const api = new API();
+    api.sortKey = "featured";
+
+    $(document).ready(() => {
+      api.onNavSearchInput();
+      api.onSortItemsClicked();
+      api.onToolTypeCheckboxClicked(); 
+      api.onSearchInput();
+      api.getProducts();
+
+      /**
+        * On Item Hover, replace image with image 2
+      */
+      // const SCREEN_WIDTH = screen.width;
+      
+      // $(document).on('mouseover', '.item', function(e){
+      //   if (SCREEN_WIDTH >= 768) {
+      //     $(this).find('.img1').hide();
+      //     $(this).find('picture, .img2').show();
+      //   }
+      // })
+      // $(document).on('mouseout', '.item', function() {
+      //   if (SCREEN_WIDTH >= 768) { 
+      //     $(this).find('picture, .img2').hide();
+      //     $(this).find('.img1').show();
+      //   }
+      // });
+    
+      $(document).on('scroll', function(e) {
+        $('#sort_items #current').attr('toggle-active', 0);
+      });
+    
+      $("body").click(function(event) {
+        let target = $("#current")[0];
+        let flag; 
+        
+        if(event.target.isSameNode(target) && !(+$(target).attr('toggle-active'))) {
+          $(target).attr('toggle-active', 1);
+        } else if(event.target.isSameNode(target) && !(+$(target).attr('toggle-active')) && $( window ).width() < 768) {
+          $(target).attr('toggle-active', 1);
+        } else {
+          $(target).attr('toggle-active', 0);
+        }
+      });
+    
+      $(document).on('click', '#mobile_filters', function(e) {
+        e.preventDefault();
+        HEAD_CONTROLLER.navigation_bar.scroll_height = Functions.getCurrentScrollHeight();
+        HEAD_CONTROLLER.navigation_bar.updateNavigationBar();
+    
+        if(Functions.getCurrentScrollHeight() > this.navigation_bar_height) {
+          $('nav').css('top', $('#announcement_bar').outerHeight());
+        }
+        $('#filter_box').css('top', this.scroll_height + 'px');
+        $('#filter_box').css('left', '0px');
+        $('#mobile_nav_mask').show();
+        $('body').css("overflow-y", "hidden").css("position", "fixed").css("top", `-${ this.scroll_height }px`);
+      });
+    });
+  </script>
+</body>
+</html>
+

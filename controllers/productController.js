@@ -12,11 +12,64 @@ class ProductController {
         res.render('../views/product/product');
     }
 
+    async shop(req, res) {        
+        let user = {
+            gender: undefined,
+            age: undefined
+        };
+
+        if(req.session.user) {
+            user = req.session.user[0];
+        }
+
+        res.render('../views/shop/shop', { user: user });
+    }
+
+    async search(req, res) {
+        let user = {
+            gender: undefined,
+            age: undefined
+        };
+
+        if(req.session.user) {
+            user = req.session.user[0];
+        }
+        
+        let data = {}
+
+        if(req.body.data.sort_key) {
+            data = {
+                data: {
+                    string: req.body.data.string,
+                    sort_key: req.body.data.sort_key
+                }
+            }
+        } else {
+            data = {
+                data: {
+                    string: "",
+                    sort_key: "p.id"
+                }
+            }
+        }
+
+        let products;
+
+        console.log(req.body.sort_key);
+
+        if(data.data.sort_key == "featured") {
+            products = await db.getSortedProducts(user, data);
+        } else {
+            products = await db.getProducts(data);
+        }
+        
+        res.json(products);
+    }
+
     async createCategory(req, res) {
         await db.createCategory(req.body.category);
 
         res.redirect('/admin/product/' + req.body.product_id);
-        // res.redirect('/admin/product/' + req.body.product_id);
     }
 
     // @TODO ADD DESCRIPTION LATER
@@ -35,7 +88,14 @@ class ProductController {
     
     // @TODO ADD DESCRIPTION LATER
     async adminProducts(req, res) {
-        const products = await db.getProducts();
+        const DATA = {
+            data: {
+              string: "",
+              sort_key: "relevance"
+            }
+        };
+
+        const products = await db.getProducts(DATA);
         
         res.render('../views/user/adminProducts', {products: products});
     }
@@ -59,7 +119,14 @@ class ProductController {
             user = req.session.user[0];
         }
 
-        const products = await db.getSortedProducts(user);
+        const DATA = {
+            data: {
+              string: "",
+              sort_key: "relevance"
+            }
+        };
+
+        const products = await db.getSortedProducts(user, DATA);
 
         res.json(products);
     }

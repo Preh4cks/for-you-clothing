@@ -22,13 +22,44 @@ class ProductModel {
   }
   
   // @TODO ADD DESCRIPTION LATER
-  getProducts() {
+  getProducts(data) {
+    let sort_by = "";
+    
+    switch(data.data.sort_key) {
+      case "featured":
+        sort_by = "p.id ASC;";
+        break;
+      case "most_recent":
+        sort_by = "p.id DESC;";
+        break;
+      case "a_to_z":
+        sort_by = "p.name ASC;";
+        break;
+      case "z_to_a":
+        sort_by = "p.name DESC;";
+        break;
+      case "a_to_z":
+        sort_by = "p.name DESC;";
+        break;
+      case "lowest_to_highest":
+        sort_by = "p.discounted_price ASC;";
+        break;
+      case "highest_to_lowest":
+        sort_by = "p.discounted_price DESC;";
+        break;
+      default:
+        sort_by = "p.id ASC;";
+        break;
+    }
+
     return uniq.queryAll(
       `SELECT p.*, GROUP_CONCAT(c.name) AS categories
       FROM products p 
       LEFT JOIN product_categories pc ON p.id = pc.products_id
       LEFT JOIN categories c ON pc.categories_id = c.id
-      GROUP BY p.id`
+      WHERE p.name LIKE "%${data.data.string}%"
+      GROUP BY p.id
+      ORDER BY ${sort_by}`
     ); 
   }
   
@@ -161,8 +192,8 @@ class ProductModel {
     return true;
   }
 
-  async getSortedProducts(customer) {
-    let products = await this.getProducts();
+  async getSortedProducts(customer, data) {
+    let products = await this.getProducts(data);
     
     products.forEach(product => {
       product.tags = product.categories.split(",");
@@ -170,9 +201,6 @@ class ProductModel {
       product.unit_price = parseFloat(product.unit_price);
       product.rating = parseFloat(product.rating);
     });
-
-    console.log(products);
-
     
     const HIGHEST_PRICE = rankingSort.getHighestPrice(products);
     const OLDEST_CUSTOMER = 60;
@@ -203,8 +231,6 @@ class ProductModel {
       let text_score = 0.5;
       let gender_matches = rankingSort.matchGender(customer_gender, products[i].tags);
       
-      console.log(HIGHEST_PRICE);
-
       let sampleProduct = [highest_price_value, reviews_value, discount_value, tag_score, text_score, customer_age_value, gender_matches];
 
       let rank = rankingSort.adjust(rankingSort.sigmoid(rankingSort.dotProduct(sampleProduct, weights)));
