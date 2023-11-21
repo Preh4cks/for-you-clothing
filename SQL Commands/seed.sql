@@ -3,16 +3,16 @@ USE foriou;
 -- GENERATE PRODUCTS
 INSERT INTO products(name, vendor, unit_price, discounted_price, rating, image_url, description, inventory_count, created_at, updated_at)
 VALUES
-  ('Padded Office Desk Chair', 'Unlabeled', 7000, 6000, 0.86, 'https://m.media-amazon.com/images/I/91utwIPuRTL._AC_SX522_.jpg', 'Comfortable padded office desk chair.', 10, NOW(), NOW()),
-  ('Wireless Earbuds', 'Syntrava', 1500, 750, 0.5, 'https://m.media-amazon.com/images/I/61nh7vLi0GL._AC_SY450_.jpg', 'High-quality wireless earbuds for an immersive audio experience.', 20, NOW(), NOW()),
-  ('Amazon Fire HD 10 tablet', 'Amazon', 7000, 6000, 0.92, 'https://m.media-amazon.com/images/I/61mEDXofrYS._AC_SX425_.jpg', 'Amazon Fire HD 10 tablet for reading and entertainment.', 15, NOW(), NOW()),
-  ('Short Skirt', 'Lyaner', 1500, 1500, 0.88, 'https://m.media-amazon.com/images/I/61uxveH2aaL._AC_UY550_.jpg', 'Stylish short skirt for parties and casual occasions.', 25, NOW(), NOW()),
-  ('Golden Groundhog TCG', 'Pokemon', 900, 900, 0.84, 'https://m.media-amazon.com/images/I/81BbRrwnWGL._AC_SX679_.jpg', 'Pokemon TCG cards for anime enthusiasts.', 30, NOW(), NOW()),
-  ('Moist T-Shirt', 'Unlabeled', 800, 800, 0.84, 'https://m.media-amazon.com/images/I/A13usaonutL._CLa%7C2140%2C2000%7C61YaMT4BY-L.png%7C0%2C0%2C2140%2C2000%2B0.0%2C0.0%2C2140.0%2C2000.0_AC_UX466_.png', 'Comfortable and moisture-wicking T-shirt for men.', 18, NOW(), NOW()),
-  ('Throw Pillow Case Jesus', 'Unlabeled', 500, 500, 0.96, 'https://m.media-amazon.com/images/I/712JsXaYaoL._AC_SX522_.jpg', 'Decorative throw pillow case with a Jesus design.', 12, NOW(), NOW()),
-  ('Womens Summer T Shirts', 'Unlabeled', 1100, 1100, 0.96, 'https://m.media-amazon.com/images/I/81k4A3ebawL._AC_UY550_.jpg', 'Colorful and stylish summer T-shirts for women.', 22, NOW(), NOW()),
-  ('Pullover Hoodie Sweatshirt', 'SweatyRocks', 1500, 1500, 0.96, 'https://m.media-amazon.com/images/I/71xftTDPj+L._AC_UY550_.jpg', 'Warm and comfortable pullover hoodie sweatshirt for women.', 16, NOW(), NOW()),
-  ('Casual Leather Belt', 'Steve Madden', 650, 650, 0.82, 'https://m.media-amazon.com/images/I/71e0b5j7y3L._AC_UX342_.jpg', 'Stylish casual leather belt for men.', 28, NOW(), NOW());
+  ('Padded Office Desk Chair', 'Unlabeled', 7000, 6000, 0.86, '/images/chair.jpg', 'Comfortable padded office desk chair.', 10, NOW(), NOW()),
+  ('Wireless Earbuds', 'Syntrava', 1500, 750, 0.5, '/images/earphone.jpg', 'High-quality wireless earbuds for an immersive audio experience.', 20, NOW(), NOW()),
+  ('Amazon Fire HD 10 tablet', 'Amazon', 7000, 6000, 0.92, '/images/tablet.jpg', 'Amazon Fire HD 10 tablet for reading and entertainment.', 15, NOW(), NOW()),
+  ('Short Skirt', 'Lyaner', 1500, 1500, 0.88, '/images/skirt.jpg', 'Stylish short skirt for parties and casual occasions.', 25, NOW(), NOW()),
+  ('Golden Groundhog TCG', 'Pokemon', 900, 900, 0.84, '/images/cards.jpg', 'Pokemon TCG cards for anime enthusiasts.', 30, NOW(), NOW()),
+  ('Moist T-Shirt', 'Unlabeled', 800, 800, 0.84, '/images/black_shirt.jpg', 'Comfortable and moisture-wicking T-shirt for men.', 18, NOW(), NOW()),
+  ('Throw Pillow Case Jesus', 'Unlabeled', 500, 500, 0.96, '/images/pillow.jpg', 'Decorative throw pillow case with a Jesus design.', 12, NOW(), NOW()),
+  ('Womens Summer T Shirts', 'Unlabeled', 1100, 1100, 0.96, '/images/blouse.jpg', 'Colorful and stylish summer T-shirts for women.', 22, NOW(), NOW()),
+  ('Pullover Hoodie Sweatshirt', 'SweatyRocks', 1500, 1500, 0.96, '/images/jacket.jpg', 'Warm and comfortable pullover hoodie sweatshirt for women.', 16, NOW(), NOW()),
+  ('Casual Leather Belt', 'Steve Madden', 650, 650, 0.82, '/images/belt.jpg', 'Stylish casual leather belt for men.', 28, NOW(), NOW());
 
 
 -- GENERATE CATEGORIES

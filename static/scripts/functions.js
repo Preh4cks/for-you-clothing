@@ -295,7 +295,6 @@ class Functions {
 
   static updateProductList(product_list) {
     let html_string = '';
-    console.log(product_list);
 
     product_list.forEach((product) => {
       html_string += ` 

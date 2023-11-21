@@ -231,9 +231,9 @@ class ProductModel {
       let text_score = 0.5;
       let gender_matches = rankingSort.matchGender(customer_gender, products[i].tags);
       
-      let sampleProduct = [highest_price_value, reviews_value, discount_value, tag_score, text_score, customer_age_value, gender_matches];
+      let current_product = [highest_price_value, reviews_value, discount_value, tag_score, text_score, customer_age_value, gender_matches];
 
-      let rank = rankingSort.adjust(rankingSort.sigmoid(rankingSort.dotProduct(sampleProduct, weights)));
+      let rank = rankingSort.adjust(rankingSort.sigmoid(rankingSort.dotProduct(current_product, weights)));
       products[i].sort_score = rank;
     }
 

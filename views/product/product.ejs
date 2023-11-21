@@ -619,6 +619,71 @@
           </form>
         </div>
       </section>
+
+      <footer>
+        <div class="container">
+          <!-- Top Footer -->
+          <div id="top_footer">
+            <div id="newsletter" data-sal="slide-left">
+              <h3>Join Our Newsletter.</h3>
+              <p>Get first dibs on exclusive offers and be a part of our growing community. No spam, we promise!</p>
+              <p id="newsletter_error"></p>
+              <form action="" id="subscribe_newsletter">
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <input type="email" value="" placeholder="Enter your email" name="contact[email]" autocorrect="off" autocomplete="off" spellcheck="false" autocapitalize="off" />
+                <input type="submit" value="Subscribe" class="black_button" />
+              </form>
+            </div>
+            <div id="links" data-sal="slide-left">
+              <div id="section1">
+                <div class="division">
+                  <h6>Links</h6>
+                  <a href="/shop">SHOP ALL</a>
+                  <a href="/shop/best-sellers">BEST SELLERS</a>
+                </div>
+              </div>
+              <div id="section2">
+                <div class="division">
+                  <h6>Support</h6>
+                  <a href="/pages/faq-general">FAQS</a>
+                  <a href="/pages/contact-us">CONTACT US</a>
+                </div>
+              </div>
+              <div id="section3">
+                <div class="division">
+                  <h6>My Account</h6>
+                  <% if(!user.id) { %>
+                    <a href="/login">LOGIN</a>
+                    <a href="/register">REGISTER</a>
+                  <% } else { %>
+                    <a href="/account">ACCOUNT</a>
+                    <a href="/logout">LOGOUT</a>
+                  <% } %>
+                  <a href="/cart">MY CART</a> 
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Bottom Footer -->
+          <div id="bottom_footer">
+            <div id="social" data-sal="slide-right">
+              <a href="/">
+                <img src="/images/foriou logo.png" alt=""  width="400" height="auto" />
+              </a>
+              <span>2023, This is just a demo website.</span>
+            </div>
+            <div id="payment_modes">
+              <img title="Visa" src="/images/Visa Logo.png" alt=""  width="auto" height="17">
+              <img title="PayPal" src="/images/PayPal Logo.png" alt=""  width="auto" height="17">
+              <img title="MasterCard" src="/images/Mastercard Logo.png" alt=""  width="auto" height="17">
+              <img title="GCash" src="/images/GCash Logo.png" alt=""  width="auto" height="17">
+            </div>
+          </div>
+        </div>
+      </footer>
+
+
     <script>
       $(document).ready(() => {
         $('#quantity_increment_button').click(function(e) {

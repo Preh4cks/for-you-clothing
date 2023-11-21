@@ -64,8 +64,6 @@ class ProductController {
 
         let products;
 
-        console.log(req.body.sort_key);
-
         if(data.data.sort_key == "featured") {
             products = await db.getSortedProducts(user, data);
         } else {
