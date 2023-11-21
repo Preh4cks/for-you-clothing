@@ -299,7 +299,7 @@ class Functions {
 
     product_list.forEach((product) => {
       html_string += ` 
-        <a href="#" class="item">
+        <a href="/product/${ product.id }" class="item">
           <div class="img_container">
             <img src="${ product.image_url }" class="img1" loading="eager" width="200" height="267" />
           </div>

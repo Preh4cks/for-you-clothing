@@ -9,10 +9,10 @@
     <title>Admin</title>
     <style>
         form {
-            padding: 20px;
-            border: 1px solid black;
-            width: 400px;
-            margin: 20px;
+          padding: 20px;
+          border: 1px solid black;
+          width: 400px;
+          margin: 20px;
         }
         input, textarea {
             width: 100%;
@@ -33,6 +33,11 @@
         table {
           width: 100%;
         }
+          table thead {
+            background-color: orangered;
+            color: white;
+            font-weight: 800;
+          }
           table tr {
             border-bottom: 1px solid black;
             display: flex;
@@ -46,10 +51,82 @@
             border-left: 1px solid black;
             border-right: 1px solid black;
           }
+
+        .mask {
+          background-color: black;
+          opacity: 0.4;
+          width: 100vw;
+          height: 100vh;
+          position: fixed;
+          top: 0px;
+          left: 0px;
+          z-index: 10;
+          display: none;
+        }
+        .create_product {
+          display: none;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: white;
+          z-index: 20;
+        }
+          .create_product form {
+            margin: auto;
+          }
+          .create_product form input[type="submit"] {
+            background-color: orangered;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+          }
+          .create_product form input[type="submit"]:hover {
+            background-color: black;
+            color: white;
+          }
+
+        #add_product {
+          position: fixed;
+          bottom: 50px;
+          right: 50px;
+          width: 100px;
+          height: 100px;
+          border: 3px solid black;
+          background-color: orangered;
+          color: white;
+          border-radius: 50%;
+          font-size: 100px;
+          line-height: 100px;
+          cursor: pointer;
+          z-index: 30;
+        }
+        #add_product:hover {
+          background-color: black!important;
+        }
+        #pad {
+          text-align: center;
+          padding: 60px 0 40px 0;
+        }
     </style>
+    <script>
+      $(document).ready(() => {
+        $('#add_product').click(() => {
+          if($('#add_product').text() == "+") {
+            $('#add_product').text("×").css("background-color", "red");
+          } else {
+            $('#add_product').text("+").css("background-color", "orangered");
+          }
+          $('.mask').toggle();
+          $('.create_product').toggle();
+        });
+      });
+    </script>
 </head>
 <body>
-<a href="/admin" class="black_button">Back</a>
+<div class="mask"></div>
+<h1 id="pad">Product Admin Dashboard</h1>
+<button id="add_product">+</button>
 <div class="create_product">
   <form action="/create/product" method="post">
     <h6>Add Product</h6> <br>
@@ -64,8 +141,6 @@
 </div>
 
 <div class="product_list">
-  <h3 style="border-bottom: 1px solid black; padding: 10px 20px;">Products</h3>
-
   <table>
     <thead>
       <td>ID</td>
@@ -76,22 +151,20 @@
       <td>Rating</td>
       <td>Inventory Count</td>
       <td>Quantity Sold</td>
-      <td>Edit</td>
-      <td>Delete</td>
+      <td>Edit | Delete</td>
     </thead>
     <tbody>
     <% for( let i = 0; i < products.length; i++ ) { %>
       <tr>
-        <td><%= products[i].id %></td>
+        <td style="font-weight: 600"><%= products[i].id %></td>
         <td><%= products[i].vendor %></td>
         <td><%= products[i].name %></td>
-        <td><%= products[i].unit_price %></td>
-        <td><%= products[i].discounted_price || products[i].unit_price %></td>
-        <td><%= products[i].rating || 2.5 %></td>
+        <td>₱<%= products[i].unit_price %></td>
+        <td>₱<%= products[i].discounted_price || products[i].unit_price %></td>
+        <td><%= ((products[i].rating || 0.5) * 5).toFixed(1)  %> stars</td>
         <td><%= products[i].inventory_count%></td>
         <td><%= products[i].quantity_sold || 0 %></td>
-        <td><a href="/admin/product/<%= products[i].id %>">Edit</a></td>
-        <td><a href="#">Delete</a></td>
+        <td><a href="/admin/product/<%= products[i].id %>" style=" font-weight: bold">Edit</a> | <a href="#" style="color:red; font-weight: bold">Delete</a></td>
       </tr>
     <% } %>
     </tbody>

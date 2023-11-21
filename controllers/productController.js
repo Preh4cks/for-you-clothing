@@ -7,9 +7,18 @@ db.trainModel();
 
 class ProductController {
     async product(req, res) {
-        // const user = await db.getProduct(req.body.id);
-        
-        res.render('../views/product/product');
+        let user = {
+            gender: undefined,
+            age: undefined
+        };
+
+        if(req.session.user) {
+            user = req.session.user[0];
+        }
+
+        const product = (await db.getProduct(req.params.product_id))[0];
+    
+        res.render('../views/product/product', {product: product, user: user});
     }
 
     async shop(req, res) {        

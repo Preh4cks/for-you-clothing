@@ -1,32 +1,640 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="/stylesheets/index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title><% product.name %></title>
+    <title><%= product.name %></title>
+    <style>
+      /* Product Section */
+#product {
+  max-width: 1280px;
+  margin: 40px auto;
+  padding: 0px 40px;
+  display: flex;
+  justify-content: space-between;
+}
+  #product > div {
+    width: 47%;
+  }
+  #product > #images {
+    display: flex;
+  }
+    #product > #images > #mini_images {
+      width: 20%;
+    }
+    #product > #images > #mini_images > img {
+      cursor: pointer;
+      min-height: 150px;
+      max-height: 150px;
+      width: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    #product > #images > #big_image {
+      width: 80%;
+      max-height: 600px;
+      margin-left: 15px;
+    }
+      #product > #images > #big_image > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+  #product > #details > h2 > a {
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .1em;
+    margin-bottom: 5px;
+  }
+  #product > #details > h1 {
+    font-size: 26px;
+    font-weight: 700;
+    font-family: var(--font-jost);
+  }
+  #product > #details > h3 {
+    font-size: 16px;
+    font-weight: 700;
+    display: inline-block;
+    margin-right: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  #product > #details > .jdgm-widget {
+    text-align: justify;
+    margin: 5px 0 0!important;
+  }
+  #product > #details > #add_to_cart_form {
+    position: relative;
+  }
+    #product > #details > #add_to_cart_form > #description {
+      margin-bottom: 20px;
+      font-size: 13px!important; 
+      font-family: var(--font-arimo);
+    }
+    #product > #details > #add_to_cart_form > #description * {
+      font-size: 13px!important; 
+      font-family: var(--font-arimo);
+      letter-spacing: 0.02em;
+      line-height: 1.5em;
+    }
+    #product > #details > #add_to_cart_form > #description a {
+      color: var(--color-orange)
+    }
+    #product > #details > #add_to_cart_form > #description span {
+      display: inline; 
+    }
+    #product > #details > #add_to_cart_form > #description li {
+      list-style-type: unset;
+    }
+    #product > #details > #add_to_cart_form > #description ul, #product > #details > #add_to_cart_form > #description ol {
+      margin: 10px 20px;
+      padding: initial!important;
+    }
+    #product > #details > #add_to_cart_form label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      font-family: 'Arimo', sans-serif;
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+    #product > #details > #add_to_cart_form > .black_button {
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      line-height: 1;
+      padding: 18px;
+    }
+    #product > #details > #add_to_cart_form > input[type="submit"] {
+      border: none;
+      cursor: pointer;
+    }
+    #product > #details > #add_to_cart_form > #quantity_input_container {
+      position: relative;
+      max-width: 150px;
+      margin-right: 20px;
+      user-select: none;
+      display: inline-block;
+    }
+    .button_container {
+      border-bottom: 1px solid black;
+      display: inline-block;
+      display: flex;
+      justify-content: space-between;
+    }
+    .button_container button {
+      margin: 5px;
+      width: 30px;
+      height: 30px;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      color: black;
+    }
+    .button_container input {
+      border: none;
+      font-size: 1.1rem;
+      width: 20px;
+      height: 40px;
+      text-align: center;
+      display: inline-block;
+    } 
+    .button_container button:hover {
+      background-color: var(--color-orange);
+      color: white;
+    }   
+    #product > #details > #add_to_cart_form > #quantity_input_container > input[type="number"] {
+      padding: 10px 5px 10px 20px;
+      width: 100px;
+      border: none;
+      border-bottom: 1px solid black;
+      margin-right: 10px; 
+      background-color: transparent;
+      height: 50px;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  #qaa_container {
+    width: 100%;
+    display: block;
+  }
+    #qaa_container > .qaa {
+      width: 100%;
+    }
+      #qaa_container > .qaa > .question {
+        padding: 20px 20px;
+        font-weight: bold;
+        border-bottom: 1px solid black;
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+      }
+      #qaa_container > .qaa > .question:hover > span {
+        color: var(--color-orange);
+      }
+        #qaa_container > .qaa > .question > span {
+          font-size: 16px;
+        }
+        #qaa_container > .qaa > .answer {
+          padding: 20px 20px;
+          display: none;
+          font-family: var(--font-arimo);
+          font-size: 13px;
+          letter-spacing: 0.02em;
+          line-height: 1.5em;
+          opacity: 1;
+        }
+        #qaa_container > .qaa > .answer a {
+          color: var(--color-orange)
+        }
+        #qaa_container > .qaa > .answer p {
+          margin-bottom: 10px;
+        }
+        #qaa_container > .qaa > .answer li {
+          list-style-type: unset;
+        }
+        #qaa_container > .qaa > .answer li * {
+          margin-bottom: 0px;
+        }
+        #qaa_container > .qaa > .answer ul, #qaa_container > .qaa > .answer ol {
+          margin: 10px 20px;
+          padding: initial!important;
+        }
+  .jdgm-widget.jdgm-preview-badge.jdgm-preview-badge--with-link.jdgm--done-setup {
+    margin: auto;
+    width: max-content!important;
+  }
+  #product .jdgm-widget.jdgm-preview-badge.jdgm-preview-badge--with-link.jdgm--done-setup {
+    margin: 0!important;
+  }
+
+.black_button.out_of_stock_button {
+  cursor: no-drop!important;
+  background: gray;
+}
+#variant_selector {
+  background-color: transparent;
+  font-size: 1.1rem;
+  margin: 0px 0px 20px 0px;
+  border: none;
+  padding: 20px 0px;
+  border-bottom: 1px solid black;
+  cursor: pointer;
+}
+#variant_selector option[disabled="disabled"] {
+  color: gray;
+}
+#skin_states_container {
+  padding-bottom: 20px;
+  border-bottom: 1px solid black;
+}
+#skin_states_container > h4 {
+  margin: 20px 0px;
+  font-size: 16px;
+}
+#skin_states_container > .container {
+  display: flex;
+  margin-bottom: 20px;
+}
+  #skin_states_container > .container > a {
+    width: 20%;
+    text-align: center;
+  }
+    #skin_states_container > .container > a > img {
+      width: 80%;
+      margin: auto;
+    }
+/* Frequently Bought Together */
+.cbb-frequently-bought-selector-label-name {
+  font-weight: 400!important;
+}
+.cbb-frequently-bought-container.cbb-desktop-view {
+  height: auto!important;
+  padding: 20px 0px;
+  margin-bottom: 0px!important;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+.cbb-frequently-bought-error {
+  background-color: var(--color-yellow)!important;
+  padding: 10px 20px!important;
+  border: 1px solid black!important;
+  font-family: var(--font-arimo);
+}
+.cbb-frequently-bought-selector-list {
+  display: none!important;
+}
+.cbb-frequently-bought-products {
+  float: initial!important;
+}
+.cbb-frequently-bought-form {
+  display: block!important;
+}
+.cbb-frequently-bought-selector-input {
+  accent-color: var(--color-orange)!important;
+}
+.cbb-frequently-bought-title {
+  font-size: 16px!important;
+  font-weight: 600!important;
+}
+
+@media(max-width: 768px) {
+  .cbb-frequently-bought-add-button {
+    width: max-content!important;
+    margin: auto!important;
+    padding: 10px 20px!important;
+    display: block!important;
+  }
+}
+.money {
+  font-size: 14.5px!important;
+  font-weight: 700!important;
+}
+#Globo-Back-In-Stock, .gPreorderBottomMessage, .gPreorderTopMessage {
+  display: none!important;
+}
+.item_unavailable {
+  width: 100%;
+  padding: 10px 20px;
+  background-color: var(--color-yellow);
+  margin-top: 10px;
+  border: 1px solid black;
+}
+
+.jdgm-link {
+  text-decoration: none!important;
+}
+.jdgm-histogram {
+  border: none!important;
+}
+.jdgm-histogram__frequency {
+  color: black!important;
+}
+.jdgm-widget-actions-wrapper {
+  width: 30%!important;
+  border: none!important;
+  display: flex;
+  flex-direction: column;
+}
+
+#collection {
+  margin: 20px 0;
+}
+#collection > .carousel {
+  padding-bottom: 20px;
+}
+
+.jdgm-rev-widg {
+  max-width: 1024px;
+  margin: 0 auto!important;
+}
+.jdgm-widget-actions-wrapper .jdgm-write-rev-link, .jdgm-widget-actions-wrapper .white_button {
+  letter-spacing: 0.01em;
+  width: 70%!important;
+  padding: 14px!important;
+  font-size: 0.8rem!important;
+  font-weight: 700!important;
+  line-height: initial!important;
+}
+.jdgm-widget-actions-wrapper .jdgm-write-rev-link {
+  margin-bottom: 10px; 
+}
+.jdgm-rev-widg__title {
+  display: none!important;
+}
+.jdgm-rev-widg__summary-average {
+  display: block;
+  font-size: 24px!important;
+  pointer-events: none;
+  font-family: var(--font-jost);
+  font-weight: 700;
+}
+.jdgm-rev-widg__summary-text {
+  font-size: 13px;
+}
+.jdgm-widget * {
+  font-size: 13px;
+}
+.jdgm-rev__author {
+  font-weight: 600; 
+}
+.jdgm-rev__content {
+  padding-top: 10px;
+}
+.jdgm-histogram__frequency {
+  font-family: var(--font-jost);
+} 
+
+.jdgm-prev-badge__text {
+  margin-left: 5px;
+}
+
+.select-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+  .select-box .options-container {
+    background: white;
+    padding: 10px;
+    color: black;
+    max-height: 0;
+    opacity: 0;
+    overflow: auto;
+    position: absolute;
+    z-index: 5;
+    left: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 15px 0px #d3d3d3;
+    display: none;
+  }
+  .select-box .selected {
+    background-color: transparent;
+    font-size: 1.1rem;
+    border: none;
+    padding: 5px 0px 10px 0px;
+    border-bottom: 1px solid black;
+    cursor: pointer;
+    font-family: var(--font-arimo);
+  }
+
+.selected::after {
+  content: "";
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: flex;
+  height: 100%;
+  width: 32px;
+  right: 10px;
+  top: 5px;
+  top: 120%;
+  transition: all 0.4s;
+}
+
+.select-box .options-container.active {
+  max-height: 240px;
+  opacity: 1;
+  display: block;
+  overflow-y: hidden;
+  margin-top: 54px;
+}
+
+.select-box .options-container {
+  overflow: overlay !important;
+}
+.select-box .option,
+.select-box .selected {
+  cursor: pointer;
+}
+.select-box .option:hover {
+  background-color: #ddd;
+  border-radius: 5px;
+  color: var(--color-orange);
+}
+.select-box label {
+  cursor: pointer;
+  display: block;
+  padding: 10px;
+  margin: 0px!important;
+  font-family: var(--font-arimo)!important;
+  font-weight: 400!important;
+  font-size: 1rem!important;
+}
+.select-box .option .radio {
+  display: none;
+}
+.select-box .selector-wrapper {
+  width: max-content;
+}
+.select-box .option .radio[disabled="disabled"]+label {
+  color: var(--color-orange);
+}
+.select-box .option:hover .radio[disabled="disabled"]+label {
+  background-color: white;
+}
+
+.sale_tag.blue {
+  background-color: var(--color-blue);
+}
+
+@media (max-width: 900px){
+  .jdgm-widget-actions-wrapper {
+    width: 400px!important;
+    margin: auto!important;
+  }
+  .jdgm-widget-actions-wrapper a {
+    margin: auto!important;
+    margin-bottom: 20px!important;
+  }
+  #product > #images > #big_image > img {
+    max-height: unset;
+    height: unset;
+  }
+
+}
+@media (max-width: 768px){
+  .jdgm-widget-actions-wrapper {
+    width: 100%!important;
+  }
+  .jdgm-widget-actions-wrapper .jdgm-write-rev-link, .jdgm-widget-actions-wrapper .white_button {
+    width: 80%!important;
+    margin-bottom: 5px!important;
+  }
+
+  #product {
+    flex-direction: column;
+    padding: 0px 20px;
+    margin: 10px auto;
+  }
+  #product > #details > h2 {
+    font-size: 1rem;
+  }
+  #product > #details > h1 {
+    font-size: 19px;
+  }
+  #product > div {
+    width: 100%;
+  }
+  #product > #images {
+    flex-direction: column-reverse;
+  }
+    #product > #images > #mini_images {
+      display: flex;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+      #product > #images > #mini_images img {
+        width: 23.5%;
+        margin-right: 5px;
+        min-height: initial;
+        max-height: initial;
+      }
+    #product > #images > #big_image {
+      margin: 0px auto 10px auto;
+      min-height: 300px;
+    }
+    #product > #images > #big_image > img {
+      height: 100%;
+      width: auto;
+      margin: auto;
+      min-height: 300px;
+      max-height: 300px;
+      object-fit: unset;
+      display: block;
+    }
+  #skin_states_container > .container > a > p > strong {
+    font-size: 0.7rem;
+  }
+
+  .select-box .selector-wrapper {
+    width: 100%;
+  }
+} 
+    </style>
 </head>
 <body>
     <nav>
         <div class="container">
             <div class="left">
                 <a href="/">
-                    <img src="images/foriou logo.png" alt="">
+                    <img src="/images/foriou logo.png" alt="">
                 </a>
             </div>
             <div class="right">
                 <a href="/shop">SHOP</a>
                 <a href="/cart">CART</a>
+              <% if(!user.id) { %>
                 <a href="/login">LOGIN</a>
                 <a href="/register">REGISTER</a>
+              <% } else { %>
+                <a href="/account">ACCOUNT</a>
+                <a href="/logout">LOGOUT</a>
+              <% } %>
             </div>
         </div>
-    </nav>
-
+      </nav>
+<!-- 
     <section>
-        <%= product.name %>
-    </section>
+      <div class="left">
+
+      </div>
+      <div class="right">
+
+      </div>
+      <p>ID: <span>#<%= product.id %></span></p>
+      <p>Vendor: <span><%= product.vendor %></span></p>
+      <p>Stocks: <span><%= product.inventory_count %>pcs</span></p>
+      <p>Ratings: <span><%= ((product.rating || 0.5) * 5).toFixed(1)  %> stars</span></p>
+      <p>Unit Sold: <span><%= product.quantity_sold ? product.quantity_sold : '0'%>pcs</span></p>
+      <p>Categories: <span><%= product.categories %></span></p>
+      <p>Unit Price: <span>₱<%= product.unit_price %></span></p>
+      <p>Discounted Price: <span>₱<%= product.discounted_price ? product.discounted_price : product.unit_price %></span></p>
+      <p>Description: <span><%= product.description %></span></p>
+    </section> -->
+
+
+    <section id="product">
+      <div id="images" data-sal="slide-right">
+        <div id="big_image">
+          <img src="<%= product.image_url %>" alt="" loading="eager" width="100" height="auto" />
+        </div>
+      </div>
+      <div id="details" data-sal="slide-left">
+        <h2><a><%= product.vendor %></a></h2>
+        <h1>
+          <%= product.name %>
+          <% if(product.discounted_price != product.unit_price ) { %>
+            <span class="sale_tag orangered"> SALE</span>
+          <% } %>
+        </h1>
+        <!-- RATINGS -->
+        <h3>₱<%= product.discounted_price %></h3>
+        <% if(product.discounted_price != product.unit_price ) { %>
+          <h3 class="price_slashed">₱<%= product.unit_price %></h3>
+          <% } %>
+        <form style="margin-bottom:20px" id="add_to_cart_form" class="product-form" action="/cart/add" data-productid="{{ product.id }}" handle="{{ product.handle }}" method="post">
+          <div id="description">
+            <p>
+              <%= product.description %>
+            </p>
+          </div>
+          <input type="hidden" name="id" class="product-select" value="<%= product.id %>" />
+            <label for="quantity">QUANTITY:</label> 
+            <div id="quantity_input_container">
+              <div class="button_container">
+                <button id="quantity_decrement_button">-</button>
+                <input min="1" type="number" id="quantity_input" class="quantity" name="quantity" value="1"/>
+                <button id="quantity_increment_button">+</button>
+              </div>
+            </div>
+            <input type="submit" value="ADD TO CART" class="black_button"/>
+          </form>
+        </div>
+      </section>
+    <script>
+      $(document).ready(() => {
+        $('#quantity_increment_button').click(function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          $('#quantity_input').val(+$('#quantity_input').val() + 1);
+        });
+
+        $('#quantity_decrement_button').click(function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          if((+$('#quantity_input').val()) - 1 != 0) {
+            $('#quantity_input').val(+$('#quantity_input').val() - 1);
+          }
+        });
+      });
+    </script>
 </body>
 </html>

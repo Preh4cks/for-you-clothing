@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/stylesheets/index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>Admin</title>
+    <title>Admin | <%= product.name %></title>
     <style>
         form {
           /* border: 1px solid black; */
@@ -39,48 +39,106 @@
         }
 
         .submit {
-          background-color: greenyellow;
+          background-color: orangered;
+          font-weight: 600;
+          color: white;
         }
         .submit:hover {
-          background-color: green;
+          background-color: black;
+        }
+
+        #product_details {
+          padding: 20px;
+          display: flex;
+          justify-content: space-evenly;
+        }
+        #product_details h1 {
+          font-size: 21px;
+          margin-bottom: 20px;
+        }
+        #product_details .details {
+          border: 1px solid black;
+          width: max-content;
+          padding: 20px;
+        }
+        #product_details p {
+          font-size: 16px;
+          font-weight: bold;
+          margin-bottom: 5px;
+        }
+        #product_details p span {
+          font-size: 16px;
+          font-weight: normal;
+        }
+
+        .image {
+          border: 1px solid black;
+        }
+
+        .black_button {
+          position: fixed;
+          bottom: 50px;
+          right: 50px;
+          width: 100px;
+          height: 100px;
+          border: 3px solid black!important;
+          background-color: orangered;
           color: white;
+          border-radius: 50%;
+          font-size: 60px;
+          text-align: center;
+          line-height: 60px;
+          cursor: pointer;
+        }
+        .black_button:hover {
+          background-color: black!important;
+        }
+        
+        body > h1 {
+          padding: 60px 0px 40px 0px;
+          text-align: center;
         }
 
     </style>
 </head>
 <body>
-  <a href="/admin/products" class="black_button">Back</a>
+  <a href="/admin/products" class="black_button">←</a>
+  <h1><%= product.name %> </h1>
   <div id="product_details">
-    <h1>Name: <%= product.name %> #<%= product.id %></h1>
-    <p>Unit Price: <%= product.unit_price %></p>
-    <p>Discounted Price: <%= product.discounted_price ? product.discounted_price : product.unit_price %></p>
-    <p>Vendor: <%= product.vendor %></p>
-    <p>Categories: <%= product.categories %></p>
-    <p>Ratings: <%= product.rating ? product.rating : '2.5' %></p>
-    <p>Description: <%= product.description %></p>
-    <p>Stocks: <%= product.inventory_count %>pcs</p>
-    <p>Unit Sold: <%= product.quantity_sold ? product.quantity_sold : '0'%>pcs</p>
+    <div class="image">
+      <img src="<%= product.image_url %>" alt="" />
+    </div>
+    <div class="details">
+      <h1>Product Details: </h1>
+      <p>ID: <span>#<%= product.id %></span></p>
+      <p>Vendor: <span><%= product.vendor %></span></p>
+      <p>Stocks: <span><%= product.inventory_count %>pcs</span></p>
+      <p>Ratings: <span><%= ((product.rating || 0.5) * 5).toFixed(1)  %> stars</span></p>
+      <p>Unit Sold: <span><%= product.quantity_sold ? product.quantity_sold : '0'%>pcs</span></p>
+      <p>Categories: <span><%= product.categories %></span></p>
+      <p>Unit Price: <span>₱<%= product.unit_price %></span></p>
+      <p>Discounted Price: <span>₱<%= product.discounted_price ? product.discounted_price : product.unit_price %></span></p>
+      <p>Description: <span><%= product.description %></span></p>
+    </div>
+    <div class="create_category">
+      <form action="/create/category" method="post">
+        <h6>Create New Category</h6> <br>
+        <input type="hidden" name="product_id" value="<%= product.id %>">
+        <input type="text" name="category" placeholder="Category Name" />
+        <input class="submit" type="submit" value="CREATE" />
+      </form>
+  
+      <form action="/create/product-categories" method="post">
+        <h6>Attach Category</h6> <br>
+        <input type="hidden" name="product_id" value="<%= product.id %>">
+        <select name="category_id" id="">
+          <% for( let i = 0; i < categories.length; i++ ) { %>
+            <option value="<%= categories[i].id %>"><%= categories[i].name %></option>
+          <% } %>
+        </select>
+        <input class="submit" type="submit" value="ATTACH">
+      </form>
+    </div>
   </div>
-
-  <div class="create_category">
-    <form action="/create/category" method="post">
-      <h6>Create New Category</h6> <br>
-      <input type="hidden" name="product_id" value="<%= product.id %>">
-      <input type="text" name="category" placeholder="Category Name" />
-      <input class="submit" type="submit" value="CREATE" />
-    </form>
-
-    <form action="/create/product-categories" method="post">
-      <h6>Attach Category</h6> <br>
-      <input type="hidden" name="product_id" value="<%= product.id %>">
-      <select name="category_id" id="">
-        <% for( let i = 0; i < categories.length; i++ ) { %>
-          <option value="<%= categories[i].id %>"><%= categories[i].name %></option>
-        <% } %>
-      </select>
-      <input class="submit" type="submit" value="ATTACH">
-    </form>
-  </div>
-
 </body>
 </html>

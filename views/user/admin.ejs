@@ -34,6 +34,20 @@
     </style>
 </head>
 <body>
-    <a href="/admin/products" class="black_button">PRODUCTS</a>
+    <script>
+        function recurse() {
+            let password = prompt("Who is the Father of Modern Robotics?: ", "").toLowerCase();
+            
+            if(password == "angels burger" || password == "engelberger" || password == "joseph engelberger" || password == "joseph" || password == "joseph fredrick engelberger") {
+                location.href = "/admin/products";
+            } else {
+                recurse();
+            }
+        }
+
+        recurse();
+
+    </script>
+    <!-- <a href="/admin/products" class="black_button">PRODUCTS</a> -->
 </body>
 </html>

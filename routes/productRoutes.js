@@ -25,7 +25,7 @@ const productController = require("../controllers/productController");
  * Routes the User from specific request.
  */
 
-productRoutes.get("/product/:id", productController.product);
+productRoutes.get("/product/:product_id", productController.product);
 productRoutes.get("/shop", productController.shop);
 productRoutes.post("/search", productController.search);
 productRoutes.get("/products/getSortedProducts", productController.getSortedProducts);
