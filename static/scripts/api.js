@@ -63,32 +63,19 @@ class API {
       }
     };
 
-    console.log(DATA);
     $.post("/search", DATA, data => {
       Functions.updateProductList(data);
+      this.product_list = data;
+
+      console.log(data);
+      const LOWEST_PRODUCT_PRICE = data.reduce((min, product) => product.discounted_price > min ? min : product.discounted_price);
+      const HIGHEST_PRODUCT_PRICE = data.reduce((max, product) => product.discounted_price < max ? max : product.discounted_price);
+
+      console.log(HIGHEST_PRODUCT_PRICE);
+      console.log(LOWEST_PRODUCT_PRICE);
+
+      Functions.updateRangeSlider(Math.floor(LOWEST_PRODUCT_PRICE / 5) * 5, HIGHEST_PRODUCT_PRICE);
+
     });
-
-    // if(!STRING) {
-
-    //   if(this.product_list.length) {
-    //     const LOWEST_PRODUCT_PRICE = (this.product_list).reduce((min, product) => Math.floor(product.priceRange.minVariantPrice.amount) > Math.floor(min.priceRange.minVariantPrice.amount) ? min : product);
-    //     const HIGHEST_PRODUCT_PRICE = (this.product_list).reduce((max, product) => Math.ceil(product.priceRange.maxVariantPrice.amount) < Math.ceil(max.priceRange.maxVariantPrice.amount) ? max : product);
-    //     this.lowest_price = Math.floor(LOWEST_PRODUCT_PRICE.priceRange.minVariantPrice.amount);
-    //     this.highest_price = Math.ceil(HIGHEST_PRODUCT_PRICE.priceRange.minVariantPrice.amount);
-    //     this.product_list = Functions.getFilteredProductsBasedOnAvailability(this.product_list); 
-    //     if(!(type == "navigation_bar")) {
-    //       this.product_list = Functions.getFilteredProductsBasedOnTags(this.product_list); 
-    //       this.product_list = Functions.getFilteredProductsBasedOnPrice(this.product_list, this.lowest_price, this.highest_price)
-    //       this.product_list = Functions.getFilteredProductsBasedOnSort(this.product_list); 
-    //       this.product_list = Functions.getFilteredProductsBasedOnCollections(this.product_list); 
-    //       Functions.updateRangeSlider(Math.floor(this.lowest_price / 5) * 5, this.highest_price);
-    //     }
-    //   }
-
-    //   if(Functions.getHandle() == 'all') {
-    //     // Functions.updateProductList(this.product_list);
-    //   }
-    // }
-
   }
 }

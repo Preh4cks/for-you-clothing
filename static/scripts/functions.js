@@ -83,7 +83,7 @@ class Functions {
    * DOCU: Initialize Buffer Timer 
    */
   initBuffer() {
-		HEAD_CONTROLLER.navigation_bar.current_height = $(window).scrollTop();
+		// HEAD_CONTROLLER.navigation_bar.current_height = $(window).scrollTop();
 		$('#loading_mask, #loading_animation').show();
 
 		this.is_buffer_open = true;
@@ -276,7 +276,7 @@ class Functions {
       document.getElementById('slider-range-value2').innerHTML = '$' + values[1];
       document.getElementsByName('min-value').value = moneyFormat.from('$' + values[0]);
       document.getElementsByName('max-value').value = moneyFormat.from('$' + values[1]);
-      Functions.updateProductList(Functions.getFilteredProductsBasedOnPrice(HEAD_CONTROLLER.api.product_list, values[0], values[1]));
+      Functions.updateProductList(Functions.getFilteredProductsBasedOnPrice(api.product_list, values[0], values[1]));
     });
   }
 
@@ -286,7 +286,7 @@ class Functions {
     }
     
     let product_list_filtered_min_max_price = product_list.filter(function (product) {
-      return Math.floor(product.priceRange.minVariantPrice.amount) >= lowest_price && Math.ceil(product.priceRange.maxVariantPrice.amount) <= highest_price;
+      return Math.floor(product.discounted_price) >= lowest_price && Math.ceil(product.discounted_price) <= highest_price;
     });
 
     return product_list_filtered_min_max_price;

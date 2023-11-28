@@ -68,6 +68,7 @@ class ProductModel {
     const name = xssFilter.inHTMLData(req.body.name);
     const vendor = xssFilter.inHTMLData(req.body.vendor);
     const unit_price = xssFilter.inHTMLData(req.body.unit_price);
+    const discounted_price = xssFilter.inHTMLData(req.body.unit_price);
     const image_url = xssFilter.inHTMLData(req.body.image_url);
     const description = xssFilter.inHTMLData(req.body.description);
     const inventory_count = xssFilter.inHTMLData(req.body.inventory_count);
@@ -78,9 +79,9 @@ class ProductModel {
     }
 
     uniq.queryNone(
-      `INSERT INTO products(name, vendor, unit_price, image_url, description, inventory_count, created_at, updated_at)
-      VALUES(?, ?, ?, ?, ?, ?, NOW(), NOW());`, 
-      [name, vendor, unit_price, image_url, description, inventory_count]
+      `INSERT INTO products(name, vendor, unit_price, discounted_price, rating, image_url, description, inventory_count, created_at, updated_at)
+      VALUES(?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW());`, 
+      [name, vendor, unit_price, discounted_price, 0.5, image_url, description, inventory_count]
     );
     
     return true;
@@ -196,7 +197,11 @@ class ProductModel {
     let products = await this.getProducts(data);
     
     products.forEach(product => {
-      product.tags = product.categories.split(",");
+      if(product.categories) {
+        product.tags = product.categories.split(",");
+      } else {
+        product.tags = "";
+      }
       product.discounted_price = parseFloat(product.discounted_price);
       product.unit_price = parseFloat(product.unit_price);
       product.rating = parseFloat(product.rating);
