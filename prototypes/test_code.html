@@ -1202,7 +1202,6 @@
         // Initialize weights with zeros
         const numFeatures = features[0].length;
         const weights = new Array(numFeatures).fill(0);
-
         // console.log("Training the logistic regression model...");
         // Train the logistic regression model
 
@@ -1220,8 +1219,9 @@
             return (number - 0.5) * 2;
         }
 
-        gradientDescent(features, labels, weights, 0.01, 420);
-        
+        console.log(gradientDescent(features, labels, weights, 0.01, 420));
+        console.log(weights);
+
         // A sample product with customer gender and rating to get the rank
         let sampleProduct = [0.44, 0.66, 0.74, 0.68, 0.56, 0.20, 1];
         let rank = adjust(sigmoid(dotProduct(sampleProduct, weights)));

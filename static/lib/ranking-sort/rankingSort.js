@@ -179,7 +179,7 @@ class RankingSort {
   }
 
   // Get Tag Matched Score
-  getTagsScore(product, text) {
+  getTagsScore(product) {
     let total_tag_score = 0;
 
     for(let j = 0; j < score_scale.tags.length; j++) {

@@ -856,8 +856,8 @@ select {
     // console.log(TEST_DATASET);
 
     // Extract features and labels from the dataset
-    const features = TRAIN_DATASET.map((data) => data.features);
-    const labels = TRAIN_DATASET.map((data) => data.label);
+    let features = TRAIN_DATASET.map((data) => data.features);
+    let labels = TRAIN_DATASET.map((data) => data.label);
 
     // Initialize weights with zeros
     const numFeatures = features[0].length;
@@ -867,6 +867,10 @@ select {
       return (number - 0.5) * 2;
     }
 
+    features = TEST_DATASET.map((data) => data.features);
+    labels = TEST_DATASET.map((data) => data.label);
+
+    gradientDescent(features, labels, weights, LEARNING_RATE, LEARNING_ITTERATIONS);
     gradientDescent(features, labels, weights, LEARNING_RATE, LEARNING_ITTERATIONS);
 
     // ------------------------------------------------------------------------------
