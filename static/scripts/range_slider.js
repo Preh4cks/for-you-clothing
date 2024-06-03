@@ -26,6 +26,7 @@ $(document).ready(function() {
 
   // Set visual min and max values and also update value hidden form inputs
   rangeSlider.noUiSlider.on('update', function(values, handle) {
+    console.log(values);
     document.getElementById('slider-range-value1').innerHTML = values[0];
     document.getElementById('slider-range-value2').innerHTML = values[1];
     document.getElementsByName('min-value').value = moneyFormat.from(values[0]);
@@ -268,6 +269,9 @@ $(document).ready(function() {
     // Entry parsing
 
   function handleEntryPoint(index, value, that) {
+    // if(typeof value[0] === 'object' && !Array.isArray(value[0]) && value[0] !== null) {
+    //   value[0] = +value[0].discounted_price;
+    // }
     var percentage;
     // Wrap numerical input in an array.
     if (typeof value === "number") {
@@ -286,6 +290,10 @@ $(document).ready(function() {
       percentage = parseFloat(index);
     }
     // Check for correct input.
+    // console.log("----------------");
+    // console.log(percentage);
+    // console.log(value[0]);
+    
     if (!isNumeric(percentage) || !isNumeric(value[0])) {
       throw new Error("noUiSlider: 'range' value isn't numeric.");
     }
@@ -327,6 +335,7 @@ $(document).ready(function() {
     this.direction = direction;
     var index, ordered = [ /* [0, 'min'], [1, '50%'], [2, 'max'] */ ];
     // Map the object keys to an array.
+
     for (index in entry) {
       if (entry.hasOwnProperty(index)) {
         ordered.push([entry[index], index]);

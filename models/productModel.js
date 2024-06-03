@@ -249,10 +249,10 @@ class ProductModel {
 
   
   trainModel() {
-    const TRAIN_DATASET = DATASET.data.slice(0, 1000);
+    const TRAIN_DATASET = DATASET.data.slice(0, 50);
     console.log(TRAIN_DATASET);
     // Learning Rate for lowest Cost Function [0.01 - 1]
-    const LEARNING_RATE = 0.01;
+    const LEARNING_RATE = 1;
     // Learning Itterations for lowest Cost Function [1 - 500] 420
     const LEARNING_ITTERATIONS = 420;
 
@@ -283,9 +283,9 @@ class ProductModel {
     console.log("test");
     let average = 0;
     for(let i = 0; i < tests_cases.length; i++) {
-      let asd = rankingSort.adjust(rankingSort.sigmoid(rankingSort.dotProduct(tests_cases[i][0], weights)));
+      let asd = rankingSort.adjust(rankingSort.sigmoid(rankingSort.dotProduct(tests_cases[i].features, weights)));
       console.log(asd);
-      if(((asd > 0.5) && (tests_cases[i][1] == 1)) || ((asd < 0.5) && (tests_cases[i][1] == 0))) {
+      if(((asd > 0.5) && (tests_cases[i].labels == 1)) || ((asd < 0.5) && (tests_cases[i].labels == 0))) {
         average += 1;
       } else {
         average += 0;

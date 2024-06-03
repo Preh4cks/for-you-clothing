@@ -561,7 +561,7 @@
             </div>
         </div>
       </nav>
-<!-- 
+    <!-- 
     <section>
       <div class="left">
 
@@ -619,7 +619,12 @@
           </form>
         </div>
       </section>
-
+      <br>
+      <section id="products_list">
+        <h4>MORE PRODUCTS FOR YOU!</h4>
+        <div class="product_container"></div>
+      </section>
+  
       <footer>
         <div class="container">
           <!-- Top Footer -->
@@ -698,6 +703,28 @@
           if((+$('#quantity_input').val()) - 1 != 0) {
             $('#quantity_input').val(+$('#quantity_input').val() - 1);
           }
+        });
+
+        $.get('/products/getSortedProducts', (data) => { 
+          console.log(data);     
+          let html = '';
+
+          for(let i = 0; i < 5; i++) {
+            html += `
+              <a href="/product/${data[i].id}" class="item">
+                <div class="img_container">
+                  <img src="${ data[i].image_url }" class="img1" loading="eager" width="200" height="267" />
+                </div>
+                <span class="vendor_name">${ data[i].vendor }</span>
+                <span class="product_name">${ data[i].name }</span>
+                
+                ${ (data[i].discounted_price == data[i].unit_price ) ? `<span class="product_price">₱${ data[i].discounted_price }</span>` : `<span class="product_price">₱${ data[i].discounted_price }</span> <span class="product_price slashed">₱${ data[i].unit_price }</span> <span class="sale_tag">SALE</span>` }
+                <span class="ratings">${ ((parseFloat(data[i].rating) / 2) * 10).toFixed(1) } stars</span>
+              </a>
+            `;
+          }
+    
+          $('.product_container').html(html);
         });
       });
     </script>

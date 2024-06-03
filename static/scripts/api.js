@@ -1,5 +1,6 @@
 class API {
   constructor() {
+    
   }
 
   onSortItemsClicked() {
@@ -7,9 +8,9 @@ class API {
       e.preventDefault();    
       Functions.addParams('sort', $(this).attr('key'));
       api.sortKey = $(this).attr('sort-key');
-      console.log()
       $('#current').text(api.sortKey.toUpperCase());
       api.getProducts();
+      api.updateRangeSlider();
     });
   }
 
@@ -25,6 +26,7 @@ class API {
 
       this.tool_type_filter = tool_type_filter;
       api.getProducts();
+      api.updateRangeSlider();
     });
   }
   
@@ -36,6 +38,7 @@ class API {
       $('#nav_search').val($(this).val());
       Functions.addParams('search', $(this).val());
       api.getProducts();
+      api.updateRangeSlider();
     });
   }
 
@@ -47,6 +50,7 @@ class API {
       $('#search_container > #search').val($(this).val());
       Functions.addParams('search', $(this).val());
       api.getProducts('navigation_bar');
+      api.updateRangeSlider();
     });
   }
 
@@ -66,16 +70,23 @@ class API {
     $.post("/search", DATA, data => {
       Functions.updateProductList(data);
       this.product_list = data;
-
-      console.log(data);
-      const LOWEST_PRODUCT_PRICE = data.reduce((min, product) => product.discounted_price > min ? min : product.discounted_price);
-      const HIGHEST_PRODUCT_PRICE = data.reduce((max, product) => product.discounted_price < max ? max : product.discounted_price);
-
-      console.log(HIGHEST_PRODUCT_PRICE);
-      console.log(LOWEST_PRODUCT_PRICE);
-
-      Functions.updateRangeSlider(Math.floor(LOWEST_PRODUCT_PRICE / 5) * 5, HIGHEST_PRODUCT_PRICE);
-
+      api.updateRangeSlider();
     });
+  }
+
+  updateRangeSlider() {
+    // const LOWEST_PRODUCT_PRICE = this.product_list.reduce((min, product) => product.discounted_price > min ? min : product.discounted_price);
+    // const HIGHEST_PRODUCT_PRICE = this.product_list.reduce((max, product) => product.discounted_price < max ? max : product.discounted_price);
+    const LOWEST_PRODUCT_PRICE = this.product_list.reduce((min, product) => {
+      return Math.min(min, product.discounted_price);
+    }, Infinity); 
+    const HIGHEST_PRODUCT_PRICE = this.product_list.reduce((max, product) => 
+      Math.max(max, product.discounted_price), -Infinity
+    );
+    // console.log("---------------");
+    // console.log(HIGHEST_PRODUCT_PRICE);
+    // console.log(LOWEST_PRODUCT_PRICE);
+
+    Functions.updateRangeSlider(Math.floor(LOWEST_PRODUCT_PRICE / 5) * 5, HIGHEST_PRODUCT_PRICE);
   }
 }

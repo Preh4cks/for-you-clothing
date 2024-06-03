@@ -252,32 +252,54 @@ class Functions {
   static updateRangeSlider(lowest_price, highest_price) {
     const RANGE_SLIDER = document.getElementById('slider-range');
 
-    RANGE_SLIDER.noUiSlider.destroy()
-
     const moneyFormat = wNumb({
       decimals: 0,
       thousand: '',
       prefix: ''
     });
-    
-    noUiSlider.create(RANGE_SLIDER, {
-      start: [lowest_price, highest_price],
-      range: {
-        'min': [lowest_price],
-        'max': [highest_price],
-      },
-      step: 5,
-      format: moneyFormat,
-      connect: true
-    });
 
-    RANGE_SLIDER.noUiSlider.on('update', function(values, handle) {
-      document.getElementById('slider-range-value1').innerHTML = '₱' + values[0];
-      document.getElementById('slider-range-value2').innerHTML = '₱' + values[1];
-      document.getElementsByName('min-value').value = moneyFormat.from('₱' + values[0]);
-      document.getElementsByName('max-value').value = moneyFormat.from('₱' + values[1]);
-      Functions.updateProductList(Functions.getFilteredProductsBasedOnPrice(api.product_list, values[0], values[1]));
-    });
+    try {
+      RANGE_SLIDER.noUiSlider.destroy();
+      // console.log(lowest_price, highest_price);
+      noUiSlider.create(RANGE_SLIDER, {
+        start: [lowest_price, highest_price],
+        range: {
+          'min': [lowest_price],
+          'max': [highest_price],
+        },
+        step: 5,
+        format: moneyFormat,
+        connect: true
+      });
+
+      RANGE_SLIDER.noUiSlider.on('update', function(values, handle) {
+        document.getElementById('slider-range-value1').innerHTML = '₱' + values[0];
+        document.getElementById('slider-range-value2').innerHTML = '₱' + values[1];
+        document.getElementsByName('min-value').value = moneyFormat.from('₱' + values[0]);
+        document.getElementsByName('max-value').value = moneyFormat.from('₱' + values[1]);
+        Functions.updateProductList(Functions.getFilteredProductsBasedOnPrice(api.product_list, values[0], values[1]));
+      });
+    } catch(e) {
+      // HEHE
+      console.log("AASDASD");
+      noUiSlider.create(RANGE_SLIDER, {
+        start: [0, 5],
+        range: {
+          'min': [0],
+          'max': [5],
+        },
+        step: 5,
+        format: moneyFormat,
+        connect: true
+      });
+      // RANGE_SLIDER.noUiSlider.on('update', function(values, handle) {
+      //   document.getElementById('slider-range-value1').innerHTML = '₱' + 1;
+      //   document.getElementById('slider-range-value2').innerHTML = '₱' + 1;
+      //   document.getElementsByName('min-value').value = moneyFormat.from('₱' + 1);
+      //   document.getElementsByName('max-value').value = moneyFormat.from('₱' + 1);
+      //   Functions.updateProductList(Functions.getFilteredProductsBasedOnPrice(api.product_list, 1, 1));
+      // });
+    }
   }
 
   static getFilteredProductsBasedOnPrice(product_list, lowest_price, highest_price) {
