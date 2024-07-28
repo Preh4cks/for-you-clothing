@@ -195,7 +195,7 @@ class RankingSort {
     if(gender == 1 && tag_list.includes("male")) {
       return 1;
     } else if(gender == 0 && tag_list.includes("female")) {
-      return 1;
+      return 0;
     } else if(gender == 0.5) {
       return 0.5;
     }

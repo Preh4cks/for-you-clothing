@@ -3,7 +3,7 @@ const uniq = require('../static/lib/universal-query/universalQuery');
 const rankingSort = require('../static/lib/ranking-sort/rankingSort');
 const xssFilter = require('xss-filters');
 const fs = require('fs');
-const DATASET = JSON.parse(fs.readFileSync('datasets/ranking_sort_v3.json', 'utf8'));
+const DATASET = JSON.parse(fs.readFileSync('datasets/accurate_dataset.json', 'utf8'));
 let weights;
 
 class ProductModel {
@@ -232,14 +232,13 @@ class ProductModel {
       let discount_value = rankingSort.getPercentValue(products[i].unit_price, 0, products[i].discounted_price);
       // let tag_score = Number(products[i].tags.includes($('#tags').val()));
       // let text_score = getMatchScore(products[i].name, text);
-      let tag_score = 0.5;
-      let text_score = 0.5;
+      let tag_score = 1;
+      let text_score = 1;
       let gender_matches = rankingSort.matchGender(customer_gender, products[i].tags);
       let current_product = [highest_price_value, reviews_value, discount_value, tag_score, text_score, customer_age_value, gender_matches];
       let rank = rankingSort.adjust(rankingSort.sigmoid(rankingSort.dotProduct(current_product, weights)));
       products[i].sort_score = rank;
     }
-
     products.sort((product, pivot_product) => {
       return pivot_product.sort_score - product.sort_score;
     });
@@ -249,12 +248,12 @@ class ProductModel {
 
   
   trainModel() {
-    const TRAIN_DATASET = DATASET.data.slice(0, 1000);
+    const TRAIN_DATASET = DATASET.data.slice(0, 50);
     console.log(TRAIN_DATASET);
     // Learning Rate for lowest Cost Function [0.01 - 1]
     const LEARNING_RATE = 0.01;
     // Learning Itterations for lowest Cost Function [1 - 500] 420
-    const LEARNING_ITTERATIONS = 420;
+    const LEARNING_ITTERATIONS = 400;
 
     // Extract features and labels from the dataset
     const features = TRAIN_DATASET.map((data) => data.features);
@@ -267,31 +266,31 @@ class ProductModel {
     console.log(rankingSort.gradientDescent(features, labels, weights, LEARNING_RATE, LEARNING_ITTERATIONS));
     console.log(weights);
 
-    const tests_cases = [    
-      {features: [0.45,0.41,0.87,0.77,0.16,0.91,1], labels: [1]},
-      {features: [0,0.53,0.62,0.28,0.19,0.66,0.5], labels: [0]},
-      {features: [0.02,0.35,0.21,0.12,0.81,0.05,1], labels: [0]},
-      {features: [0.69,0.06,0.91,0.07,0.94,0.2,0], labels: [0]},
-      {features: [0.9,0.94,0.06,0.74,0.85,0.14,0], labels: [0]},
-      {features: [0.6,0.53,0.82,0.5,0.17,0.52,0.5], labels: [1]},
-      {features: [0.2,0.9,0.66,0.95,0.72,0.13,1], labels: [1]},
-      {features: [0.65,0.95,0.04,0.75,0.65,0.09,0], labels: [1]},
-      {features: [0.24,0.64,0.12,0.32,0.94,0.65,0], labels: [1]},
-      {features: [0.5,0.04,0.18,0.76,0.88,0.52,1], labels: [1]},
-    ];
+    // const tests_cases = [    
+    //   {features: [0.45,0.41,0.87,0.77,0.16,0.91,1], labels: [1]},
+    //   {features: [0,0.53,0.62,0.28,0.19,0.66,0.5], labels: [0]},
+    //   {features: [0.02,0.35,0.21,0.12,0.81,0.05,1], labels: [0]},
+    //   {features: [0.69,0.06,0.91,0.07,0.94,0.2,0], labels: [0]},
+    //   {features: [0.9,0.94,0.06,0.74,0.85,0.14,0], labels: [0]},
+    //   {features: [0.6,0.53,0.82,0.5,0.17,0.52,0.5], labels: [1]},
+    //   {features: [0.2,0.9,0.66,0.95,0.72,0.13,1], labels: [1]},
+    //   {features: [0.65,0.95,0.04,0.75,0.65,0.09,0], labels: [1]},
+    //   {features: [0.24,0.64,0.12,0.32,0.94,0.65,0], labels: [1]},
+    //   {features: [0.5,0.04,0.18,0.76,0.88,0.52,1], labels: [1]},
+    // ];
 
-    console.log("test");
-    let average = 0;
-    for(let i = 0; i < tests_cases.length; i++) {
-      let asd = rankingSort.adjust(rankingSort.sigmoid(rankingSort.dotProduct(tests_cases[i][0], weights)));
-      console.log(asd);
-      if(((asd > 0.5) && (tests_cases[i][1] == 1)) || ((asd < 0.5) && (tests_cases[i][1] == 0))) {
-        average += 1;
-      } else {
-        average += 0;
-      }
-    }
-    console.log("AVERAGE: " + average);
+    // console.log("test");
+    // let average = 0;
+    // for(let i = 0; i < tests_cases.length; i++) {
+    //   let asd = rankingSort.adjust(rankingSort.sigmoid(rankingSort.dotProduct(tests_cases[i][0], weights)));
+    //   console.log(asd);
+    //   if(((asd > 0.5) && (tests_cases[i][1] == 1)) || ((asd < 0.5) && (tests_cases[i][1] == 0))) {
+    //     average += 1;
+    //   } else {
+    //     average += 0;
+    //   }
+    // }
+    // console.log("AVERAGE: " + average);
 
   }
 }
