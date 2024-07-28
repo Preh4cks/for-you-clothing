@@ -22,7 +22,7 @@ class ProductModel {
   }
   
   // @TODO ADD DESCRIPTION LATER
-  getProducts(data) {
+  async getProducts(data) {
     let sort_by = "";
     
     switch(data.data.sort_key) {
@@ -52,7 +52,7 @@ class ProductModel {
         break;
     }
 
-    return uniq.queryAll(
+    return (await uniq.queryAll(
       `SELECT p.*, GROUP_CONCAT(c.name) AS categories
       FROM products p 
       LEFT JOIN product_categories pc ON p.id = pc.products_id
@@ -60,7 +60,7 @@ class ProductModel {
       GROUP BY p.id 
       HAVING p.name LIKE "%${data.data.string}%" OR GROUP_CONCAT(c.name) LIKE "%${data.data.string}%"
       ORDER BY ${sort_by}`
-    ); 
+    )); 
   }
   
   // @TODO ADD DESCRIPTION LATER
@@ -195,7 +195,6 @@ class ProductModel {
 
   async getSortedProducts(customer, data) {
     let products = await this.getProducts(data);
-    
     products.forEach(product => {
       if(product.categories) {
         product.tags = product.categories.split(",");

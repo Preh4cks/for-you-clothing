@@ -34,7 +34,7 @@ session_data:
 #  port: <portNumber> default (3306, 5432)
 
 database:
-  name: sql12722687
+  name: mysql
   host: sql12.freemysqlhosting.net
   user: sql12722687
   password: ddRY7IvqUi
