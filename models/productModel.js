@@ -250,9 +250,9 @@ class ProductModel {
     const TRAIN_DATASET = DATASET.data;
     // console.log(TRAIN_DATASET);
     // Learning Rate for lowest Cost Function [0.01 - 1]
-    const LEARNING_RATE = 0.01;
+    const LEARNING_RATE = 0.1;
     // Learning Itterations for lowest Cost Function [1 - 500] 420
-    const LEARNING_ITTERATIONS = 420;
+    const LEARNING_ITTERATIONS = 500;
 
     // Extract features and labels from the dataset
     const features = TRAIN_DATASET.map((data) => data.features);
@@ -262,31 +262,29 @@ class ProductModel {
     const numFeatures = features[0].length;
     weights = new Array(numFeatures).fill(0);
     
-    console.log(rankingSort.gradientDescent(features, labels, weights, LEARNING_RATE, LEARNING_ITTERATIONS));
-    console.log(weights);
+    // console.log(rankingSort.gradientDescent(features, labels, weights, LEARNING_RATE, LEARNING_ITTERATIONS));
+    // console.log(weights);
 
     // const tests_cases = [    
-    //   {features: [0.45,0.41,0.87,0.77,0.16,0.91,1], labels: [1]},
-    //   {features: [0,0.53,0.62,0.28,0.19,0.66,0.5], labels: [0]},
-    //   {features: [0.02,0.35,0.21,0.12,0.81,0.05,1], labels: [0]},
-    //   {features: [0.69,0.06,0.91,0.07,0.94,0.2,0], labels: [0]},
-    //   {features: [0.9,0.94,0.06,0.74,0.85,0.14,0], labels: [0]},
-    //   {features: [0.6,0.53,0.82,0.5,0.17,0.52,0.5], labels: [1]},
-    //   {features: [0.2,0.9,0.66,0.95,0.72,0.13,1], labels: [1]},
-    //   {features: [0.65,0.95,0.04,0.75,0.65,0.09,0], labels: [1]},
-    //   {features: [0.24,0.64,0.12,0.32,0.94,0.65,0], labels: [1]},
-    //   {features: [0.5,0.04,0.18,0.76,0.88,0.52,1], labels: [1]},
+    //   { "features": [0.96, 0.57, 0.63, 0.94, 0.76, 0.20, 0], "label": 0 },
+    //   { "features": [0.32, 0.89, 0.12, 0.50, 0.50, 0.65, 1], "label": 1 },
+    //   { "features": [0.78, 0.23, 0.05, 0.50, 0.50, 0.82, 0], "label": 0 },
+    //   { "features": [0.15, 0.95, 0.48, 0.50, 0.50, 0.18, 1], "label": 1 },
+    //   { "features": [0.55, 0.68, 0.29, 0.50, 0.50, 0.35, 0], "label": 0 },
+    //   { "features": [0.81, 0.41, 0.37, 0.50, 0.50, 0.71, 1], "label": 0 },
+    //   { "features": [0.27, 0.76, 0.59, 0.50, 0.50, 0.09, 0], "label": 1 },
+    //   { "features": [0.64, 0.35, 0.18, 0.50, 0.50, 0.52, 1], "label": 0 },
+    //   { "features": [0.49, 0.59, 0.72, 0.50, 0.50, 0.93, 0], "label": 1 },
+    //   { "features": [0.98, 0.11, 0.25, 0.50, 0.50, 0.46, 1], "label": 0 },
     // ];
 
     // console.log("test");
     // let average = 0;
     // for(let i = 0; i < tests_cases.length; i++) {
-    //   let asd = rankingSort.adjust(rankingSort.sigmoid(rankingSort.dotProduct(tests_cases[i][0], weights)));
+    //   let asd = rankingSort.adjust(rankingSort.sigmoid(rankingSort.dotProduct(tests_cases[i].features, weights)));
     //   console.log(asd);
-    //   if(((asd > 0.5) && (tests_cases[i][1] == 1)) || ((asd < 0.5) && (tests_cases[i][1] == 0))) {
+    //   if(((asd > 0.5) && (tests_cases[i].label == 1)) || ((asd < 0.5) && (tests_cases[i].label == 0))) {
     //     average += 1;
-    //   } else {
-    //     average += 0;
     //   }
     // }
     // console.log("AVERAGE: " + average);

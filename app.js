@@ -179,5 +179,4 @@ app.listen(config.port, () => {
 setInterval(function() {
     AXIOS.get('https://for-you-clothing.onrender.com');
     console.log('ping: status ok!');
-    updateShippingRates();
 }, 10 * 60 * 1000); // Ping every 10 minutes
