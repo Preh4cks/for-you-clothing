@@ -3,7 +3,7 @@ const uniq = require('../static/lib/universal-query/universalQuery');
 const rankingSort = require('../static/lib/ranking-sort/rankingSort');
 const xssFilter = require('xss-filters');
 const fs = require('fs');
-const DATASET = JSON.parse(fs.readFileSync('datasets/accurate_dataset.json', 'utf8'));
+const DATASET = JSON.parse(fs.readFileSync('datasets/ranking_sort_v3.json', 'utf8'));
 let weights;
 
 class ProductModel {
@@ -248,12 +248,12 @@ class ProductModel {
 
   
   trainModel() {
-    const TRAIN_DATASET = DATASET.data.slice(0, 50);
-    console.log(TRAIN_DATASET);
+    const TRAIN_DATASET = DATASET.data;
+    // console.log(TRAIN_DATASET);
     // Learning Rate for lowest Cost Function [0.01 - 1]
     const LEARNING_RATE = 0.01;
     // Learning Itterations for lowest Cost Function [1 - 500] 420
-    const LEARNING_ITTERATIONS = 400;
+    const LEARNING_ITTERATIONS = 420;
 
     // Extract features and labels from the dataset
     const features = TRAIN_DATASET.map((data) => data.features);

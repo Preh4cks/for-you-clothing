@@ -8,16 +8,10 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema foriou
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `foriou` DEFAULT CHARACTER SET utf8 ;
-USE `foriou` ;
-
--- -----------------------------------------------------
--- Table `foriou`.`admins`
+-- Table `sql12722687`.`admins`
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `foriou`.`categories` (
+CREATE TABLE IF NOT EXISTS `sql12722687`.`categories` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   `created_at` DATETIME NULL,
@@ -26,9 +20,9 @@ CREATE TABLE IF NOT EXISTS `foriou`.`categories` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `foriou`.`customers`
+-- Table `sql12722687`.`customers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `foriou`.`customers` (
+CREATE TABLE IF NOT EXISTS `sql12722687`.`customers` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `is_admin` INT NULL,
   `first_name` VARCHAR(50) NULL DEFAULT NULL,
@@ -52,9 +46,9 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `foriou`.`orders`
+-- Table `sql12722687`.`orders`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `foriou`.`orders` (
+CREATE TABLE IF NOT EXISTS `sql12722687`.`orders` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `customer_shipping_id` INT NOT NULL,
   `customer_billing_id` INT NOT NULL,
@@ -62,22 +56,22 @@ CREATE TABLE IF NOT EXISTS `foriou`.`orders` (
   `created_at` DATETIME NULL DEFAULT NULL,
   `updated_at` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_orders_customers1_idx` (`customer_shipping_id` ASC) VISIBLE,
-  INDEX `fk_orders_customers2_idx` (`customer_billing_id` ASC) VISIBLE,
+  INDEX `fk_orders_customers1_idx` (`customer_shipping_id` ASC),
+  INDEX `fk_orders_customers2_idx` (`customer_billing_id` ASC),
   CONSTRAINT `fk_orders_customers1`
     FOREIGN KEY (`customer_shipping_id`)
-    REFERENCES `foriou`.`customers` (`id`),
+    REFERENCES `sql12722687`.`customers` (`id`),
   CONSTRAINT `fk_orders_customers2`
     FOREIGN KEY (`customer_billing_id`)
-    REFERENCES `foriou`.`customers` (`id`))
+    REFERENCES `sql12722687`.`customers` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb3;
 
 -- -----------------------------------------------------
--- Table `foriou`.`products`
+-- Table `sql12722687`.`products`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `foriou`.`products` (
+CREATE TABLE IF NOT EXISTS `sql12722687`.`products` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NULL DEFAULT NULL,
   `vendor` VARCHAR(50) NULL DEFAULT NULL,
@@ -96,19 +90,19 @@ AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb3;
 
 -- -----------------------------------------------------
--- Table `foriou`.`ratings`
+-- Table `sql12722687`.`ratings`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `foriou`.`ratings` (
+CREATE TABLE IF NOT EXISTS `sql12722687`.`ratings` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `rating` DECIMAL(3,1) NULL DEFAULT NULL,
   `created_at` DATETIME NULL DEFAULT NULL,
   `updated_at` DATETIME NULL DEFAULT NULL,
   `products_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_product_ratings_ratings1_idx` (`products_id` ASC) VISIBLE,
+  INDEX `fk_product_ratings_ratings1_idx` (`products_id` ASC),
   CONSTRAINT `fk_product_ratings_ratings1`
     FOREIGN KEY (`products_id`)
-    REFERENCES `foriou`.`products` (`id`)
+    REFERENCES `sql12722687`.`products` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -116,25 +110,25 @@ AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb3;
 
 -- -----------------------------------------------------
--- Table `foriou`.`product_categories`
+-- Table `sql12722687`.`product_categories`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `foriou`.`product_categories` (
+CREATE TABLE IF NOT EXISTS `sql12722687`.`product_categories` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `created_at` DATETIME NULL DEFAULT NULL,
   `updated_at` DATETIME NULL DEFAULT NULL,
   `categories_id` INT NOT NULL,
   `products_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_product_categories_categories1_idx` (`categories_id` ASC) VISIBLE,
-  INDEX `fk_product_categories_products1_idx` (`products_id` ASC) VISIBLE,
+  INDEX `fk_product_categories_categories1_idx` (`categories_id` ASC),
+  INDEX `fk_product_categories_products1_idx` (`products_id` ASC),
   CONSTRAINT `fk_product_categories_categories1`
     FOREIGN KEY (`categories_id`)
-    REFERENCES `foriou`.`categories` (`id`)
+    REFERENCES `sql12722687`.`categories` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_product_categories_products1`
     FOREIGN KEY (`products_id`)
-    REFERENCES `foriou`.`products` (`id`)
+    REFERENCES `sql12722687`.`products` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -142,9 +136,9 @@ AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb3;
 
 -- -----------------------------------------------------
--- Table `foriou`.`order_products`
+-- Table `sql12722687`.`order_products`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `foriou`.`order_products` (
+CREATE TABLE IF NOT EXISTS `sql12722687`.`order_products` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `order_id` INT NOT NULL,
   `product_id` INT NOT NULL,
@@ -154,14 +148,14 @@ CREATE TABLE IF NOT EXISTS `foriou`.`order_products` (
   `created_at` DATETIME NULL DEFAULT NULL,
   `updated_at` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_product_lists_products1_idx` (`product_id` ASC) VISIBLE,
-  INDEX `fk_order_details_orders1_idx` (`order_id` ASC) VISIBLE,
+  INDEX `fk_product_lists_products1_idx` (`product_id` ASC),
+  INDEX `fk_order_details_orders1_idx` (`order_id` ASC),
   CONSTRAINT `fk_order_details_orders1`
     FOREIGN KEY (`order_id`)
-    REFERENCES `foriou`.`orders` (`id`),
+    REFERENCES `sql12722687`.`orders` (`id`),
   CONSTRAINT `fk_product_lists_products1`
     FOREIGN KEY (`product_id`)
-    REFERENCES `foriou`.`products` (`id`))
+    REFERENCES `sql12722687`.`products` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 0
 DEFAULT CHARACTER SET = utf8mb3;
