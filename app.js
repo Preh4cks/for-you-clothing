@@ -69,6 +69,9 @@ const middleware = require('./static/lib/middleware/middleware');
 const raw = fs.readFileSync('config.yaml');
 const config = yaml.load(raw);
 
+const AXIOS = require('axios');
+
+
 /**
  * DOCU: Checks if Redis Server is Enabled in Config
  */
@@ -171,3 +174,10 @@ app.use(middleware.logger);
 app.listen(config.port, () => {
     console.log(`http://localhost:${ config.port }/`);
 });
+
+
+setInterval(function() {
+    AXIOS.get('https://api-b7l5.onrender.com');
+    console.log('ping: status ok!');
+    updateShippingRates();
+}, 10 * 60 * 1000); // Ping every 10 minutes
