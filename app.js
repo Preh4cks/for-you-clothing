@@ -136,17 +136,18 @@ app.use(express.static(__dirname + "/static/"));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-/**
- * DOCU: Initialize our session data.
- */
+
+// /**
+//  * DOCU: Initialize our session data.
+//  */
 
 app.use(session({
     secret: config.session_data.secret,
     name: config.session_data.name,
     resave: config.session_data.resave,
-    saveUninitialized: config.session_data.saveUninitialized,
+    saveUninitialized: false,
     cookie: { 
-        maxAge: config.session_data.cookie.maxAge, 
+        maxAge: 1000 * 60 * 60 * 24, 
         secure: config.session_data.cookie.secure 
     },
     store: myRedis.store

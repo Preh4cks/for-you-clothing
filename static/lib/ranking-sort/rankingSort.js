@@ -122,28 +122,39 @@ class RankingSort {
     return +(((VAL - 1) * -1).toFixed(2)); 
   }
 
-  getMatchScore(s1, s2) {
-    let longer = s1;
-    let shorter = s2;
-
-    if(shorter.length == 0) {
-      return  0.5;
+  getMatchScore(str1, str2) {
+    // 1. Preprocessing (Lowercase, Trim)
+    str1 = str1.toLowerCase().trim();
+    str2 = str2.toLowerCase().trim();
+  
+    // 2. Calculate Levenshtein Distance
+    const dp = Array(str1.length + 1)
+      .fill(null)
+      .map(() => Array(str2.length + 1).fill(null));
+  
+    for (let i = 0; i <= str1.length; i++) {
+      dp[i][0] = i;
     }
-
-    // Swap variables
-    if(s1.length < s2.length) {
-      longer = s2;
-      shorter = s1;
+  
+    for (let j = 0; j <= str2.length; j++) {
+      dp[0][j] = j;
     }
-
-    const longer_length = longer.length;
-
-    // Return 0 if there is no string
-    if(longer_length == 0) {
-      return 0.5;
+  
+    for (let i = 1; i <= str1.length; i++) {
+      for (let j = 1; j <= str2.length; j++) {
+        const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
+        dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);   
+  
+      }
     }
-
-    return (longer_length - this.getDistance(longer, shorter)) / parseFloat(longer_length) + 0.5;
+  
+    const distance = dp[str1.length][str2.length];
+  
+    // 3. Calculate Similarity (0 to 1)
+    const longerLength = Math.max(str1.length, str2.length);
+    const similarity = (longerLength - distance) / longerLength;
+    // 4. Compare to Threshold
+    return similarity;
   }
 
   getDistance(s1, s2) {
@@ -177,6 +188,23 @@ class RankingSort {
 
     return costs[s2.length];
   }
+
+
+  calculateMatchScore(array1, array2) {
+    let matchCount = 0;
+  
+    for (const element of array1) {
+      if (array2.includes(element)) {
+        matchCount++;
+      }
+    }
+  
+    // Basic scoring: 1 point per match
+    const score = matchCount; 
+  
+    return score;
+  }
+
 
   // Get Tag Matched Score
   getTagsScore(product) {

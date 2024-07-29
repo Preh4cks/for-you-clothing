@@ -58,7 +58,6 @@ class ProductModel {
       LEFT JOIN product_categories pc ON p.id = pc.products_id
       LEFT JOIN categories c ON pc.categories_id = c.id
       GROUP BY p.id 
-      HAVING p.name LIKE "%${data.data.string}%" OR GROUP_CONCAT(c.name) LIKE "%${data.data.string}%"
       ORDER BY ${sort_by}`
     )); 
   }
@@ -193,7 +192,8 @@ class ProductModel {
     return true;
   }
 
-  async getSortedProducts(customer, data) {
+  async getSortedProducts(customer, data, req) {
+    console.log(req.session.product);
     let products = await this.getProducts(data);
     products.forEach(product => {
       if(product.categories) {
@@ -219,10 +219,8 @@ class ProductModel {
     } else if(customer.gender == "female") {
       customer_gender = 0;
     }
-
     customer_age_value = rankingSort.getPercentValue(OLDEST_CUSTOMER, YOUNGEST_CUSTOMER, customer.age || AVERAGE_VALUE);
-
-    // const text = $('#texts').val();
+    const text = data.data.string;
     
     for(let i = 0; i < products.length; i++) {
       // Price=, Reviews=, Discount, Tags, Text, Age, Gender,
@@ -230,17 +228,29 @@ class ProductModel {
       let reviews_value = products[i].rating;
       let discount_value = rankingSort.getPercentValue(products[i].unit_price, 0, products[i].discounted_price);
       // let tag_score = Number(products[i].tags.includes($('#tags').val()));
-      // let text_score = getMatchScore(products[i].name, text);
+      let text_score = rankingSort.getMatchScore(products[i].name, text);
       let tag_score = 1;
-      let text_score = 1;
+      // let text_score = 1;
       let gender_matches = rankingSort.matchGender(customer_gender, products[i].tags);
       let current_product = [highest_price_value, reviews_value, discount_value, tag_score, text_score, customer_age_value, gender_matches];
       let rank = rankingSort.adjust(rankingSort.sigmoid(rankingSort.dotProduct(current_product, weights)));
       products[i].sort_score = rank;
+      products[i].text_score = text_score;
+      products[i].category_score = rankingSort.calculateMatchScore((req.session.product) ? req.session.product.categories.split(",") : [], products[i].tags);
     }
     products.sort((product, pivot_product) => {
       return pivot_product.sort_score - product.sort_score;
     });
+
+    if(text) {
+      products.sort((product, pivot_product) => {
+        return pivot_product.text_score - product.text_score;
+      });
+    } else {
+      products.sort((product, pivot_product) => {
+        return pivot_product.category_score - product.category_score;
+      });
+    }
 
     return products;
   }
@@ -252,7 +262,7 @@ class ProductModel {
     // Learning Rate for lowest Cost Function [0.01 - 1]
     const LEARNING_RATE = 0.1;
     // Learning Itterations for lowest Cost Function [1 - 500] 420
-    const LEARNING_ITTERATIONS = 500;
+    const LEARNING_ITTERATIONS = 420;
 
     // Extract features and labels from the dataset
     const features = TRAIN_DATASET.map((data) => data.features);
@@ -262,7 +272,7 @@ class ProductModel {
     const numFeatures = features[0].length;
     weights = new Array(numFeatures).fill(0);
     
-    // console.log(rankingSort.gradientDescent(features, labels, weights, LEARNING_RATE, LEARNING_ITTERATIONS));
+    console.log(rankingSort.gradientDescent(features, labels, weights, LEARNING_RATE, LEARNING_ITTERATIONS));
     // console.log(weights);
 
     // const tests_cases = [    

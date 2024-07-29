@@ -40,6 +40,13 @@ database:
   password: ddRY7IvqUi
   database: sql12722687
   port: 3306
+# database:
+#   name: mysql
+#   host: localhost
+#   user: root
+#   password: password
+#   database: foriou
+#   port: 3306
 
 # DOCU: Enable the redis server for faster loading and validation
 

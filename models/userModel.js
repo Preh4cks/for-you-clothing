@@ -3,6 +3,7 @@ const uniq = require('../static/lib/universal-query/universalQuery');
 const crypto = require('crypto');
 const md5 = require('md5');
 const xssFilter = require('xss-filters');
+const nodemailer = require('nodemailer');
 
 /**
  * DOCU: Class Database
@@ -74,6 +75,36 @@ class UserModel {
         );
 
         req.session.errors['message'] = "User Registration Success!";
+
+        // Create a transporter object
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail', 
+            secure: false, // use SSL
+            auth: {
+            user: 'prehacks0942@gmail.com',
+            pass: 'llymzqayshbcdqyx',
+            }
+        });
+        
+        // Configure the mailoptions object
+        const mailOptions = {
+            from: 'prehacks0942@gmail.com',
+            to: email,
+            subject: 'Sending Email using Node.js',
+            html: `
+            <h1>Welcome to Foriou!</h1>
+            <a style="padding: 10px 20px; background-color: green; color: white" href="https://for-you-clothing.onrender.com/validate/${ email }">Validate your account</a>
+            `,
+        };
+        
+        // Send the email
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+            console.log('Error:' + error);
+            } else {
+            console.log('Email sent: ' + info.response);
+            }
+        });
     }
 
     /**
@@ -96,6 +127,16 @@ class UserModel {
 
         req.session.user = user;
         return true;
+    }
+
+    validateEmail(email) {
+        uniq.queryNone(
+            `UPDATE customers
+            SET is_admin = 1,
+            updated_at = NOW()
+            WHERE email = ?;`,
+            [email]
+        );
     }
 }
 

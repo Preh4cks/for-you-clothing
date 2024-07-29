@@ -17,7 +17,7 @@ class ProductController {
         }
 
         const product = (await db.getProduct(req.params.product_id))[0];
-    
+        req.session.product = product;
         res.render('../views/product/product', {product: product, user: user});
     }
 
@@ -65,7 +65,7 @@ class ProductController {
         let products;
 
         if(data.data.sort_key == "featured") {
-            products = await db.getSortedProducts(user, data);
+            products = await db.getSortedProducts(user, data, req);
         } else {
             products = await db.getProducts(data);
         }
@@ -133,7 +133,7 @@ class ProductController {
             }
         };
 
-        const products = await db.getSortedProducts(user, DATA);
+        const products = await db.getSortedProducts(user, DATA, req);
 
         res.json(products);
     }

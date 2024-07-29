@@ -24,7 +24,6 @@ const userController = require("../controllers/userController");
  * DOCU: Using the Object from module controller
  * Routes the User from specific request.
  */
-
 userRoutes.get("/", userController.index);
 userRoutes.get("/login", userController.login);
 userRoutes.get("/register", userController.register);
@@ -32,6 +31,7 @@ userRoutes.post("/validate", userController.validate);
 userRoutes.get("/account", userController.account);
 userRoutes.get("/logout", userController.logout);
 userRoutes.get("/admin", userController.admin);
+userRoutes.get("/validate/:email", userController.validateEmail);
 
 /**
  * DOCU: Export Router Module to App.js

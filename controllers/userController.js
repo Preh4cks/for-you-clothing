@@ -68,6 +68,19 @@ class UserController {
             const user = await user_db.getUser(req.body.email);
             const isValidCredentials = user_db.validateUser(req, user); 
 
+            // make sure email is verfied;
+            // is admin access 1
+            // console.log(user[0].is_admin); 
+
+            if(user.length) {
+                if(!user[0].is_admin) {
+                    req.session.user = undefined;
+                    req.session.errors['message'] = "Please Verify your Email";
+                    res.redirect('/login');
+                    return;
+                }
+            }
+
             if(isValidCredentials) { // Check if valid credentials
                 res.redirect('/account');
                 return;
@@ -108,6 +121,12 @@ class UserController {
     logout(req, res) {
         req.session.user = undefined;
         res.redirect('/');
+    }
+
+    async validateEmail(req, res) {
+        console.log(req.params.email);
+        await user_db.validateEmail(req.params.email);
+        res.redirect('/login');
     }
 
     async admin(req, res) {
